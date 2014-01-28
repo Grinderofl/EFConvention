@@ -1,0 +1,54 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Reflection"#>
+<#@ import namespace="System.Data.Entity"#>
+<#@ import namespace="EFAutomation"#>
+<#@ import namespace="Core" #>
+<#@ import namespace="System.Data.Entity.Migrations"#>
+<#@ import namespace="System.Data.Entity.Infrastructure"#>
+
+namespace EFMigrations 
+{
+	using System.Data.Entity.Migrations;
+	using System.Data.Entity;
+	using Core;
+	using System.Data.Entity.Infrastructure;
+
+	public class Context : DbContext
+	{
+		public Context(string connection) : base(connection) {}
+		<#var types =
+                Assembly.GetAssembly(typeof (Item))
+                    .GetTypes()
+                    .Where(x => x.IsSubclassOf(typeof (Entity)) && !x.IsAbstract);#>
+		<#foreach(var type in types) 
+			{#>
+			
+			public DbSet<<#= type.Name #>> <#= type.Name #>s { get; set; }
+
+		<# } #>
+	}
+
+	public class ContextFactory : IDbContextFactory<Context>
+	{
+		public Context Create()
+		{
+			return new Context("DefaultConnection");
+		}
+	}
+
+	public class Configuration : DbMigrationsConfiguration<Context>
+	{
+		public Configuration()
+		{
+			//AutomaticMigrationsEnabled = true;
+			//MigrationsDirectory = "Migrations";
+			//AutomaticMigrationDataLossAllowed = true;
+		}
+
+		
+	}
+}
