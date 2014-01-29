@@ -46,7 +46,7 @@ namespace Test
 
             var directory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Migrations\\";
 
-            var configuration = (DbMigrationsConfiguration)icc.CompiledAssembly.CreateInstance("EFMigrations.Configuration", false, BindingFlags.CreateInstance, null, null, CultureInfo.CurrentCulture, null);
+            var configuration = (DbMigrationsConfiguration)icc.CompiledAssembly.CreateInstance("EFMigrations.Configuration");
             
             var scaffolder = new MigrationScaffolder(configuration);
             var scaffold = scaffolder.Scaffold(DateTime.Now.ToString("hh_mm_ss"));
@@ -54,12 +54,10 @@ namespace Test
             File.WriteAllText(directory + scaffold.MigrationId + ".designer.cs", scaffold.DesignerCode);
             File.WriteAllText(directory + scaffold.MigrationId + ".cs", scaffold.UserCode);
             using (var writer = new ResXResourceWriter(directory + scaffold.MigrationId + ".resources"))
-            {
                 foreach (var resource in scaffold.Resources)
-                {
                     writer.AddResource(resource.Key, resource.Value);
-                }
-            }
+                
+            
 
             var filesContents = Directory.GetFiles(directory).Where(x => x.EndsWith(".cs")).Select(File.ReadAllText).ToList();
             var resources = Directory.GetFiles(directory).Where(x => x.EndsWith(".resources"));
