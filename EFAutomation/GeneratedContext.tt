@@ -9,16 +9,22 @@
 <#@ import namespace="System.Data.Entity.Migrations"#>
 <#@ import namespace="System.Data.Entity.Infrastructure"#>
 <#@ parameter type="System.Collections.Generic.List<Type>" name="Types"#>
+<#@ parameter type="System.Collections.Generic.List<String>" name="Assemblies"#>
 
 namespace EFMigrations 
 {
 	using System.Data.Entity.Migrations;
 	using System.Data.Entity;
-	using Core;
 	using System.Data.Entity.Infrastructure;
 	using System.Data.Entity.Validation;
 	using EFAutomation;
 	using System.Collections.Generic;
+
+	<#foreach(var assembly in Assemblies)
+		 { #>
+			using <#= assembly #>;
+		<# } #>
+
 
 	public class Context : DbContext, IContext
 	{

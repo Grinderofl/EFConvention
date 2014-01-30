@@ -33,23 +33,34 @@ namespace EFAutomation
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write(@"
-namespace EFMigrations 
-{
-	using System.Data.Entity.Migrations;
-	using System.Data.Entity;
-	using Core;
-	using System.Data.Entity.Infrastructure;
-	using System.Data.Entity.Validation;
-	using EFAutomation;
-	using System.Collections.Generic;
-
-	public class Context : DbContext, IContext
-	{
-		public Context(string connection) : base(connection) {}
-		");
+            this.Write("\r\nnamespace EFMigrations \r\n{\r\n\tusing System.Data.Entity.Migrations;\r\n\tusing Syste" +
+                    "m.Data.Entity;\r\n\tusing System.Data.Entity.Infrastructure;\r\n\tusing System.Data.En" +
+                    "tity.Validation;\r\n\tusing EFAutomation;\r\n\tusing System.Collections.Generic;\r\n\r\n\t");
+            
+            #line 23 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+foreach(var assembly in Assemblies)
+		 { 
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\tusing ");
+            
+            #line 25 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(assembly));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n\t\t");
             
             #line 26 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\r\n\r\n\tpublic class Context : DbContext, IContext\r\n\t{\r\n\t\tpublic Context(string conn" +
+                    "ection) : base(connection) {}\r\n\t\t");
+            
+            #line 32 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
 foreach(var type in Types) 
 			{
             
@@ -57,21 +68,21 @@ foreach(var type in Types)
             #line hidden
             this.Write("\t\t\t\r\n\t\t\tpublic DbSet<");
             
-            #line 29 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 35 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(type.Name));
             
             #line default
             #line hidden
             this.Write("> ");
             
-            #line 29 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 35 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(type.Name));
             
             #line default
             #line hidden
             this.Write("s { get; set; }\r\n\r\n\t\t");
             
-            #line 31 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 37 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
  } 
             
             #line default
@@ -129,6 +140,19 @@ private global::System.Collections.Generic.List<Type> Types
     }
 }
 
+private global::System.Collections.Generic.List<String> _AssembliesField;
+
+/// <summary>
+/// Access the Assemblies parameter of the template.
+/// </summary>
+private global::System.Collections.Generic.List<String> Assemblies
+{
+    get
+    {
+        return this._AssembliesField;
+    }
+}
+
 
 /// <summary>
 /// Initialize the template
@@ -149,6 +173,20 @@ if ((TypesValueAcquired == false))
     if ((data != null))
     {
         this._TypesField = ((global::System.Collections.Generic.List<Type>)(data));
+    }
+}
+bool AssembliesValueAcquired = false;
+if (this.Session.ContainsKey("Assemblies"))
+{
+    this._AssembliesField = ((global::System.Collections.Generic.List<String>)(this.Session["Assemblies"]));
+    AssembliesValueAcquired = true;
+}
+if ((AssembliesValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("Assemblies");
+    if ((data != null))
+    {
+        this._AssembliesField = ((global::System.Collections.Generic.List<String>)(data));
     }
 }
 

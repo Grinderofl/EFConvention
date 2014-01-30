@@ -24,14 +24,14 @@ namespace Test
     {
         private static void Main(string[] args)
         {
-            Assembly.GetAssembly(typeof (Item));
+            //Assembly.GetAssembly(typeof (Item));
 
             var generated = new GeneratedContext();
             generated.Session = new Dictionary<string, object>();
-            var types = Assembly.GetAssembly(typeof (Item))
-                .GetTypes()
-                .Where(x => x.IsSubclassOf(typeof (Entity)) && !x.IsAbstract).ToList();
-            generated.Session["Types"] = types;
+            //var types = Assembly.GetAssembly(typeof (Item))
+            //    .GetTypes()
+            //    .Where(x => x.IsSubclassOf(typeof (Entity)) && !x.IsAbstract).ToList();
+            //generated.Session["Types"] = types;
             
             generated.Initialize();
             var transformed = generated.TransformText();

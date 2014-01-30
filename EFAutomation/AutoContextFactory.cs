@@ -80,6 +80,7 @@ namespace EFAutomation
 
         public IContext Create()
         {
+            var compilerParameters = DefaultCompilerParameters();
             var types = new List<Type>();
             foreach (var assembly in _assemblies)
             {
@@ -90,12 +91,16 @@ namespace EFAutomation
                 }
             }
             types.AddRange(_singleClasses);
-            
+            types = types.Distinct().ToList();
+            compilerParameters.ReferencedAssemblies.AddRange(
+                types.Select(x => Assembly.GetAssembly(x).Location).Distinct().ToArray());
+            var namespaces = new List<string>();
+            namespaces.AddRange(types.Select(x => x.Namespace));
             _contextGenerator.Session = new Dictionary<string, object>();
             _contextGenerator.Session["Types"] = types;
+            _contextGenerator.Session["Assemblies"] = namespaces;
             _contextGenerator.Initialize();
             var generatedContextSource = _contextGenerator.TransformText();
-            var compilerParameters = DefaultCompilerParameters();
             var compiledAssembly = Configuration.CodeProvider.CompileAssemblyFromSource(compilerParameters,
                 generatedContextSource);
             if(compiledAssembly.Errors.Count > 0)
