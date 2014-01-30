@@ -43,45 +43,51 @@ namespace Test
             compilerParams.ReferencedAssemblies.Add("System.Core.dll");
             compilerParams.ReferencedAssemblies.Add("System.dll");
             
-            //compilerParams.CompilerOptions = 
-            var icc = provider.CompileAssemblyFromSource(compilerParams, transformed);
+            var contextAssembly = provider.CompileAssemblyFromSource(compilerParams, transformed);
             var context =
                 (DbContext)
-                    icc.CompiledAssembly.CreateInstance("EFMigrations.Context", false, BindingFlags.CreateInstance, null,
+                    contextAssembly.CompiledAssembly.CreateInstance("EFMigrations.Context", false, BindingFlags.CreateInstance, null,
                         new object[] {"DefaultConnection"}, CultureInfo.CurrentCulture, null);
 
             
-            var configuration = (DbMigrationsConfiguration)icc.CompiledAssembly.CreateInstance("EFMigrations.Configuration");
+            var configuration = (DbMigrationsConfiguration)contextAssembly.CompiledAssembly.CreateInstance("EFMigrations.Configuration");
             
             var scaffolder = new MigrationScaffolder(configuration) {Namespace = "EFMigrations"};
             //var scaffold = scaffolder.Scaffold(DateTime.Now.ToString("hh_mm_ss"));
             var scaffold = scaffolder.Scaffold("First");
-            Directory.CreateDirectory(directory);
-            //File.WriteAllText(directory + scaffold.MigrationId + ".designer.cs", scaffold.DesignerCode);
+            //Directory.CreateDirectory(directory);
             //File.WriteAllText(directory + scaffold.MigrationId + ".cs", scaffold.UserCode);
+            var designerGenerator = new MigrationDesignerGenerator();
+            designerGenerator.Session = new Dictionary<string, object>();
+            designerGenerator.Session.Add("Target", scaffold.Resources["Target"]);
+            designerGenerator.Session.Add("MigrationId", scaffold.MigrationId);
+            designerGenerator.Initialize();
+            //File.WriteAllText(directory + scaffold.MigrationId + ".Designer.cs", designerGenerator.TransformText());
             //using (var writer = new ResXResourceWriter(directory + "EFMigrations." + scaffold.MigrationId.Substring(scaffold.MigrationId.IndexOf("_", StringComparison.Ordinal)+1) + ".resources"))
             //    foreach (var resource in scaffold.Resources)
             //        writer.AddResource(resource.Key, resource.Value);
                 
             var filesContents = Directory.GetFiles(directory).Where(x => x.EndsWith(".cs")).Select(File.ReadAllText).ToList();
             var resources = Directory.GetFiles(directory).Where(x => x.EndsWith(".resx"));
-            foreach(var res in resources)
+            //foreach (var res in resources)
 
-            compilerParams.OutputAssembly = "AutomatedMigrations.dll";
-            //foreach (var resource in resources)
+                //compilerParams.OutputAssembly = "AutomatedMigrations.dll";
+                //foreach (var resource in resources)
                 //compilerParams.CompilerOptions += string.Format("/resource:\"{0}\" ", resource);
             compilerParams.EmbeddedResources.AddRange(resources.ToArray());
-            
-            var assemblies = provider.CompileAssemblyFromSource(compilerParams, filesContents.ToArray());
+            //compilerParams.GenerateInMemory = true;
+            compilerParams.OutputAssembly = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Migrations.dll";
+
+            var migrationsAssembly = provider.CompileAssemblyFromSource(compilerParams, filesContents.ToArray());
 
             
-            configuration.MigrationsAssembly = assemblies.CompiledAssembly;
+            configuration.MigrationsAssembly = migrationsAssembly.CompiledAssembly;
             configuration.MigrationsNamespace = "EFMigrations";
             //configuration.MigrationsDirectory = "Test\\bin\\Debug\\Migrations\\";*/
             var migrator = new DbMigrator(configuration);
             var pending = migrator.GetPendingMigrations();
-            var resManager = new ResourceManager("EFMigrations.First", assemblies.CompiledAssembly);
-            var ress = resManager.GetResourceSet(CultureInfo.InvariantCulture, false, true);
+            //var resManager = new ResourceManager("EFMigrations.First", assemblies.CompiledAssembly);
+            //var ress = resManager.GetResourceSet(CultureInfo.InvariantCulture, false, true);
             migrator.Update("");
 
             var decorator = new MigratorScriptingDecorator(migrator);
