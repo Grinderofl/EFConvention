@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.Mvc;
 using EFAutomation;
@@ -14,12 +15,16 @@ namespace WebTest.Controllers
         public HomeController()
         {
             _autoContextFactory = new AutoContextFactory();
+            _autoContextFactory.Configuration.AutomaticMigrationsEnabled = true;
         }
 
         public ActionResult Index()
         {
             _autoContextFactory.AddEntity<Item>();
             var context = _autoContextFactory.Create();
+            context.ModelCreating += (sender, args) => { };
+            context.Set<Item>().Add(new Item());
+            context.SaveChanges();
             return View();
         }
 

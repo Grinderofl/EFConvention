@@ -27,5 +27,13 @@ namespace EFAutomation
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
         bool ShouldValidateEntity(DbEntityEntry entityEntry);
         DbEntityValidationResult ValidateEntity(DbEntityEntry entityEntry, IDictionary<Object, Object> items);
+
+        event ModelCreatingEventHandler ModelCreating;
+        event SavingChangesEventHandler SavingChanges;
+
     }
+
+    public delegate void ModelCreatingEventHandler(object sender, ModelBuilderEventArgs e);
+
+    public delegate void SavingChangesEventHandler(object sender, SavingChangesEventArgs e);
 }

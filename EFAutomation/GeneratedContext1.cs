@@ -88,11 +88,23 @@ foreach(var type in Types)
             #line default
             #line hidden
             this.Write(@"
+		public event ModelCreatingEventHandler ModelCreating;
+		public event SavingChangesEventHandler SavingChanges;
+				
 		public new bool ShouldValidateEntity(DbEntityEntry entityEntry){ 
 			return base.ShouldValidateEntity(entityEntry);
 		}
 
+		public override int SaveChanges() {
+			if(SavingChanges != null)
+				SavingChanges(this, new SavingChangesEventArgs(){ Context = this }); 
+			return base.SaveChanges();
+		}
+
 		public new void OnModelCreating(DbModelBuilder modelBuilder){
+
+			if(ModelCreating != null)
+				ModelCreating(this, new ModelBuilderEventArgs(){ ModelBuilder = modelBuilder } );
 			base.OnModelCreating(modelBuilder);
 		}
 
@@ -109,18 +121,18 @@ foreach(var type in Types)
 			return new Context(""DefaultConnection"");
 		}
 	}
-
+	/*
 	public class Configuration : DbMigrationsConfiguration<Context>
 	{
 		public Configuration()
 		{
-			//AutomaticMigrationsEnabled = true;
+			AutomaticMigrationsEnabled = true;
 			//MigrationsDirectory = ""Migrations"";
-			//AutomaticMigrationDataLossAllowed = true;
+			AutomaticMigrationDataLossAllowed = true;
 		}
 
 		
-	}
+	}*/
 }");
             return this.GenerationEnvironment.ToString();
         }

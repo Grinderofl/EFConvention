@@ -62,7 +62,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MigrationDesignerGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="ModelBuilderEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SavingChangesEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
