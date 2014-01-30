@@ -46,12 +46,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatabaseMigrator.cs" />
-    <Compile Include="GeneratedContext.cs">
+    <Compile Include="AutoContextFactoryConfiguration.cs" />
+    <Compile Include="AutoContextFactory.cs" />
+    <Compile Include="Exceptions\AssemblyCompilationErrorsException.cs" />
+    <Compile Include="GeneratedContext1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>GeneratedContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="IAutoContextFactory.cs" />
+    <Compile Include="IAutoContextFactoryConfiguration.cs" />
+    <Compile Include="IContext.cs" />
     <Compile Include="MigrationDesignerGenerator.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -60,10 +65,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="GeneratedContext.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>GeneratedContext.cs</LastGenOutput>
+      <LastGenOutput>GeneratedContext1.cs</LastGenOutput>
     </None>
     <None Include="MigrationDesignerGenerator.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
@@ -80,6 +87,7 @@
       <Name>Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

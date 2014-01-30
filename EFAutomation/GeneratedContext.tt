@@ -6,9 +6,9 @@
 <#@ import namespace="System.Reflection"#>
 <#@ import namespace="System.Data.Entity"#>
 <#@ import namespace="EFAutomation"#>
-<#@ import namespace="Core" #>
 <#@ import namespace="System.Data.Entity.Migrations"#>
 <#@ import namespace="System.Data.Entity.Infrastructure"#>
+<#@ parameter type="System.Collections.Generic.List<Type>" name="Types"#>
 
 namespace EFMigrations 
 {
@@ -16,20 +16,32 @@ namespace EFMigrations
 	using System.Data.Entity;
 	using Core;
 	using System.Data.Entity.Infrastructure;
+	using System.Data.Entity.Validation;
+	using EFAutomation;
+	using System.Collections.Generic;
 
-	public class Context : DbContext
+	public class Context : DbContext, IContext
 	{
 		public Context(string connection) : base(connection) {}
-		<#var types =
-                Assembly.GetAssembly(typeof (Item))
-                    .GetTypes()
-                    .Where(x => x.IsSubclassOf(typeof (Entity)) && !x.IsAbstract);#>
-		<#foreach(var type in types) 
+		<#foreach(var type in Types) 
 			{#>
 			
 			public DbSet<<#= type.Name #>> <#= type.Name #>s { get; set; }
 
 		<# } #>
+
+		public new bool ShouldValidateEntity(DbEntityEntry entityEntry){ 
+			return base.ShouldValidateEntity(entityEntry);
+		}
+
+		public new void OnModelCreating(DbModelBuilder modelBuilder){
+			base.OnModelCreating(modelBuilder);
+		}
+
+		public new DbEntityValidationResult ValidateEntity(DbEntityEntry entityEntry, IDictionary<object, object> items)
+		{
+			return base.ValidateEntity(entityEntry, items);
+		}
 	}
 
 	public class ContextFactory : IDbContextFactory<Context>

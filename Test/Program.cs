@@ -27,6 +27,13 @@ namespace Test
             Assembly.GetAssembly(typeof (Item));
 
             var generated = new GeneratedContext();
+            generated.Session = new Dictionary<string, object>();
+            var types = Assembly.GetAssembly(typeof (Item))
+                .GetTypes()
+                .Where(x => x.IsSubclassOf(typeof (Entity)) && !x.IsAbstract).ToList();
+            generated.Session["Types"] = types;
+            
+            generated.Initialize();
             var transformed = generated.TransformText();
             var provider = new CSharpCodeProvider();
             var compilerParams = new CompilerParameters();
@@ -42,10 +49,11 @@ namespace Test
             compilerParams.ReferencedAssemblies.Add("Core.dll");
             compilerParams.ReferencedAssemblies.Add("System.Core.dll");
             compilerParams.ReferencedAssemblies.Add("System.dll");
+            compilerParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(IContext)).Location);
             
             var contextAssembly = provider.CompileAssemblyFromSource(compilerParams, transformed);
             var context =
-                (DbContext)
+                (IContext)
                     contextAssembly.CompiledAssembly.CreateInstance("EFMigrations.Context", false, BindingFlags.CreateInstance, null,
                         new object[] {"DefaultConnection"}, CultureInfo.CurrentCulture, null);
 
