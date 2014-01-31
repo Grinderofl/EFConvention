@@ -18,7 +18,7 @@ namespace EFAutomation
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\Nero\Documents\Visual Studio 2013\Projects\EFAutomation\EFAutomation\MigrationDesignerGenerator.tt"
+    #line 1 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\MigrationDesignerGenerator.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "12.0.0.0")]
     public partial class MigrationDesignerGenerator : MigrationDesignerGeneratorBase
     {
@@ -28,8 +28,7 @@ namespace EFAutomation
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write(@"
-namespace EFMigrations
+            this.Write(@"namespace EFMigrations
 {
     using System.CodeDom.Compiler;
     using System.Data.Entity.Migrations;
@@ -37,15 +36,18 @@ namespace EFMigrations
     using System.Resources;
     
     [GeneratedCode(""EFAutomation.MigrationDesignerGenerator"", ""1.0"")]
-    public sealed partial class First : IMigrationMetadata
-    {
-        //private readonly ResourceManager Resources = new ResourceManager(typeof(First));
-        
-        string IMigrationMetadata.Id
-        {
-            get { return """);
+    public sealed partial class ");
             
-            #line 23 "C:\Users\Nero\Documents\Visual Studio 2013\Projects\EFAutomation\EFAutomation\MigrationDesignerGenerator.tt"
+            #line 17 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\MigrationDesignerGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
+            
+            #line default
+            #line hidden
+            this.Write(" : IMigrationMetadata\r\n    {\r\n        //private readonly ResourceManager Resource" +
+                    "s = new ResourceManager(typeof(First));\r\n        \r\n        string IMigrationMeta" +
+                    "data.Id\r\n        {\r\n            get { return \"");
+            
+            #line 23 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\MigrationDesignerGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(MigrationId));
             
             #line default
@@ -54,7 +56,7 @@ namespace EFMigrations
                     "           get { return null; }\r\n        }\r\n        \r\n        string IMigrationM" +
                     "etadata.Target\r\n        {\r\n            get { return \"");
             
-            #line 33 "C:\Users\Nero\Documents\Visual Studio 2013\Projects\EFAutomation\EFAutomation\MigrationDesignerGenerator.tt"
+            #line 33 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\MigrationDesignerGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Target));
             
             #line default
@@ -63,7 +65,7 @@ namespace EFMigrations
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 1 "C:\Users\Nero\Documents\Visual Studio 2013\Projects\EFAutomation\EFAutomation\MigrationDesignerGenerator.tt"
+        #line 1 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\MigrationDesignerGenerator.tt"
 
 private string _TargetField;
 
@@ -88,6 +90,19 @@ private string MigrationId
     get
     {
         return this._MigrationIdField;
+    }
+}
+
+private string _ClassNameField;
+
+/// <summary>
+/// Access the ClassName parameter of the template.
+/// </summary>
+private string ClassName
+{
+    get
+    {
+        return this._ClassNameField;
     }
 }
 
@@ -125,6 +140,20 @@ if ((MigrationIdValueAcquired == false))
     if ((data != null))
     {
         this._MigrationIdField = ((string)(data));
+    }
+}
+bool ClassNameValueAcquired = false;
+if (this.Session.ContainsKey("ClassName"))
+{
+    this._ClassNameField = ((string)(this.Session["ClassName"]));
+    ClassNameValueAcquired = true;
+}
+if ((ClassNameValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("ClassName");
+    if ((data != null))
+    {
+        this._ClassNameField = ((string)(data));
     }
 }
 

@@ -5,7 +5,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ parameter type="System.String" name="Target" #>
 <#@ parameter type="System.String" name="MigrationId" #>
-
+<#@ parameter type="System.String" name="ClassName"#>
 namespace EFMigrations
 {
     using System.CodeDom.Compiler;
@@ -14,7 +14,7 @@ namespace EFMigrations
     using System.Resources;
     
     [GeneratedCode("EFAutomation.MigrationDesignerGenerator", "1.0")]
-    public sealed partial class First : IMigrationMetadata
+    public sealed partial class <#= ClassName #> : IMigrationMetadata
     {
         //private readonly ResourceManager Resources = new ResourceManager(typeof(First));
         

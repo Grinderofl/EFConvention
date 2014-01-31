@@ -33,11 +33,21 @@ namespace EFAutomation
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("\r\nnamespace EFMigrations \r\n{\r\n\tusing System.Data.Entity.Migrations;\r\n\tusing Syste" +
-                    "m.Data.Entity;\r\n\tusing System.Data.Entity.Infrastructure;\r\n\tusing System.Data.En" +
-                    "tity.Validation;\r\n\tusing EFAutomation;\r\n\tusing System.Collections.Generic;\r\n\r\n\t");
+            this.Write(@"
+namespace EFMigrations
+{
+	using System.Data.Entity.Migrations;
+	using System.Data.Entity;
+	using System.Data.Entity.Infrastructure;
+	using System.Data.Entity.Validation;
+	using EFAutomation;
+	using System.Collections.Generic;
+	using System.Threading;
+	using System.Threading.Tasks;
+
+	");
             
-            #line 23 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 26 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
 foreach(var assembly in Assemblies)
 		 { 
             
@@ -45,22 +55,37 @@ foreach(var assembly in Assemblies)
             #line hidden
             this.Write("\t\t\tusing ");
             
-            #line 25 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 28 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(assembly));
             
             #line default
             #line hidden
             this.Write(";\r\n\t\t");
             
-            #line 26 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 29 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\r\n\r\n\tpublic class Context : DbContext, IContext\r\n\t{\r\n\t\tpublic Context(string conn" +
-                    "ection) : base(connection) {}\r\n\t\t");
+                    "ection) : base(connection) \r\n\t\t{\r\n\t\t\t");
             
-            #line 32 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 36 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+ if(MigrateToLatestVersion) {
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\tDatabase.SetInitializer(new MigrateDatabaseToLatestVersion<Context, Configurat" +
+                    "ion>());\r\n\t\t\t");
+            
+            #line 38 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\t\t}\r\n\t\t");
+            
+            #line 40 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
 foreach(var type in Types) 
 			{
             
@@ -68,72 +93,62 @@ foreach(var type in Types)
             #line hidden
             this.Write("\t\t\t\r\n\t\t\tpublic DbSet<");
             
-            #line 35 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 43 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(type.Name));
             
             #line default
             #line hidden
             this.Write("> ");
             
-            #line 35 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 43 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(type.Name));
             
             #line default
             #line hidden
             this.Write("s { get; set; }\r\n\r\n\t\t");
             
-            #line 37 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 45 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
  } 
             
             #line default
             #line hidden
-            this.Write(@"
-		public event ModelCreatingEventHandler ModelCreating;
-		public event SavingChangesEventHandler SavingChanges;
-				
-		public new bool ShouldValidateEntity(DbEntityEntry entityEntry){ 
-			return base.ShouldValidateEntity(entityEntry);
-		}
-
-		public override int SaveChanges() {
-			if(SavingChanges != null)
-				SavingChanges(this, new SavingChangesEventArgs(){ Context = this }); 
-			return base.SaveChanges();
-		}
-
-		public new void OnModelCreating(DbModelBuilder modelBuilder){
-
-			if(ModelCreating != null)
-				ModelCreating(this, new ModelBuilderEventArgs(){ ModelBuilder = modelBuilder } );
-			base.OnModelCreating(modelBuilder);
-		}
-
-		public new DbEntityValidationResult ValidateEntity(DbEntityEntry entityEntry, IDictionary<object, object> items)
-		{
-			return base.ValidateEntity(entityEntry, items);
-		}
-	}
-
-	public class ContextFactory : IDbContextFactory<Context>
-	{
-		public Context Create()
-		{
-			return new Context(""DefaultConnection"");
-		}
-	}
-	
-	public class Configuration : DbMigrationsConfiguration<Context>
-	{
-		public Configuration()
-		{
-			AutomaticMigrationsEnabled = true;
-			//MigrationsDirectory = ""Migrations"";
-			AutomaticMigrationDataLossAllowed = true;
-		}
-
-				
-	}
-}");
+            this.Write("\r\n\r\n\t\tpublic event ModelCreatingEventHandler ModelCreating;\r\n\t\tpublic event Savin" +
+                    "gChangesEventHandler SavingChanges;\r\n\t\tpublic event ValidatingEntityEventHandler" +
+                    " ValidatingEntity;\r\n\t\t\t\t\r\n\t\tpublic new bool ShouldValidateEntity(DbEntityEntry e" +
+                    "ntityEntry){ \r\n\t\t\treturn base.ShouldValidateEntity(entityEntry);\r\n\t\t}\r\n\r\n\t\tpubli" +
+                    "c override int SaveChanges() {\r\n\t\t\tif(SavingChanges != null)\r\n\t\t\t\tSavingChanges(" +
+                    "this, new SavingChangesEventArgs(){ Context = this }); \r\n\t\t\treturn base.SaveChan" +
+                    "ges();\r\n\t\t}\r\n\r\n\t\tpublic override Task<int> SaveChangesAsync() {\r\n\t\t\tif(SavingCha" +
+                    "nges != null)\r\n\t\t\t\tSavingChanges(this, new SavingChangesEventArgs(){ Context = t" +
+                    "his });\r\n\t\t\treturn base.SaveChangesAsync();\r\n\t\t}\r\n\r\n\t\tpublic new void OnModelCre" +
+                    "ating(DbModelBuilder modelBuilder){\r\n\t\t\tif(ModelCreating != null)\r\n\t\t\t\tModelCrea" +
+                    "ting(this, new ModelBuilderEventArgs(){ ModelBuilder = modelBuilder } );\r\n\t\t\tbas" +
+                    "e.OnModelCreating(modelBuilder);\r\n\t\t}\r\n\r\n\t\tpublic new Task<int> SaveChangesAsync" +
+                    "(CancellationToken cancellationToken) {\r\n\t\t\tif(SavingChanges != null)\r\n\t\t\t\tSavin" +
+                    "gChanges(this, new SavingChangesEventArgs(){ Context = this });\r\n\t\t\treturn base." +
+                    "SaveChangesAsync(cancellationToken);\r\n\t\t}\r\n\r\n\t\tpublic new DbEntityValidationResu" +
+                    "lt ValidateEntity(DbEntityEntry entityEntry, IDictionary<object, object> items)\r" +
+                    "\n\t\t{\r\n\t\t\tif(ValidatingEntity != null)\r\n\t\t\t\tValidatingEntity(this, new Validating" +
+                    "EntityEventArgs(){ EntityEntry = entityEntry, Items = items }); \r\n\t\t\treturn base" +
+                    ".ValidateEntity(entityEntry, items);\r\n\t\t}\r\n\r\n\t}\r\n\r\n\tpublic class ContextFactory " +
+                    ": IDbContextFactory<Context>\r\n\t{\r\n\t\tpublic Context Create()\r\n\t\t{\r\n\t\t\treturn new " +
+                    "Context(\"DefaultConnection\");\r\n\t\t}\r\n\t}\r\n\t \r\n\tpublic class Configuration : DbMigr" +
+                    "ationsConfiguration<Context>\r\n\t{\r\n\t\tpublic Configuration()\r\n\t\t{\r\n\t\t\t");
+            
+            #line 101 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+ if(MigrateToLatestVersion) {
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\t\tAutomaticMigrationsEnabled = true;\r\n\t\t\t\tAutomaticMigrationDataLossAllowed = t" +
+                    "rue;\r\n\t\t\t");
+            
+            #line 104 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\t\t}\r\n\r\n\t\t\t\t\r\n\t}\r\n}");
             return this.GenerationEnvironment.ToString();
         }
         
@@ -162,6 +177,19 @@ private global::System.Collections.Generic.List<String> Assemblies
     get
     {
         return this._AssembliesField;
+    }
+}
+
+private bool _MigrateToLatestVersionField;
+
+/// <summary>
+/// Access the MigrateToLatestVersion parameter of the template.
+/// </summary>
+private bool MigrateToLatestVersion
+{
+    get
+    {
+        return this._MigrateToLatestVersionField;
     }
 }
 
@@ -199,6 +227,20 @@ if ((AssembliesValueAcquired == false))
     if ((data != null))
     {
         this._AssembliesField = ((global::System.Collections.Generic.List<String>)(data));
+    }
+}
+bool MigrateToLatestVersionValueAcquired = false;
+if (this.Session.ContainsKey("MigrateToLatestVersion"))
+{
+    this._MigrateToLatestVersionField = ((bool)(this.Session["MigrateToLatestVersion"]));
+    MigrateToLatestVersionValueAcquired = true;
+}
+if ((MigrateToLatestVersionValueAcquired == false))
+{
+    object data = global::System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("MigrateToLatestVersion");
+    if ((data != null))
+    {
+        this._MigrateToLatestVersionField = ((bool)(data));
     }
 }
 

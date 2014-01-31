@@ -24,14 +24,14 @@ namespace Test
     {
         private static void Main(string[] args)
         {
-            //Assembly.GetAssembly(typeof (Item));
+            Assembly.GetAssembly(typeof (Item));
 
             var generated = new GeneratedContext();
             generated.Session = new Dictionary<string, object>();
-            //var types = Assembly.GetAssembly(typeof (Item))
-            //    .GetTypes()
-            //    .Where(x => x.IsSubclassOf(typeof (Entity)) && !x.IsAbstract).ToList();
-            //generated.Session["Types"] = types;
+            var types = Assembly.GetAssembly(typeof (Item))
+                .GetTypes()
+                .Where(x => x.IsSubclassOf(typeof (Entity)) && !x.IsAbstract).ToList();
+            generated.Session["Types"] = types;
             
             generated.Initialize();
             var transformed = generated.TransformText();
@@ -63,7 +63,7 @@ namespace Test
             var scaffolder = new MigrationScaffolder(configuration) {Namespace = "EFMigrations"};
             //var scaffold = scaffolder.Scaffold(DateTime.Now.ToString("hh_mm_ss"));
             var scaffold = scaffolder.Scaffold("First");
-            //Directory.CreateDirectory(directory);
+            Directory.CreateDirectory(directory);
             //File.WriteAllText(directory + scaffold.MigrationId + ".cs", scaffold.UserCode);
             var designerGenerator = new MigrationDesignerGenerator();
             designerGenerator.Session = new Dictionary<string, object>();
@@ -76,13 +76,13 @@ namespace Test
             //        writer.AddResource(resource.Key, resource.Value);
                 
             var filesContents = Directory.GetFiles(directory).Where(x => x.EndsWith(".cs")).Select(File.ReadAllText).ToList();
-            var resources = Directory.GetFiles(directory).Where(x => x.EndsWith(".resx"));
+            //var resources = Directory.GetFiles(directory).Where(x => x.EndsWith(".resx"));
             //foreach (var res in resources)
 
                 //compilerParams.OutputAssembly = "AutomatedMigrations.dll";
-                //foreach (var resource in resources)
+                //foreach (var resource in resources) 
                 //compilerParams.CompilerOptions += string.Format("/resource:\"{0}\" ", resource);
-            compilerParams.EmbeddedResources.AddRange(resources.ToArray());
+            //compilerParams.EmbeddedResources.AddRange(resources.ToArray());
             //compilerParams.GenerateInMemory = true;
             compilerParams.OutputAssembly = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Migrations.dll";
 
@@ -101,7 +101,7 @@ namespace Test
             var decorator = new MigratorScriptingDecorator(migrator);
             var codegenerator = new CSharpMigrationCodeGenerator();
             
-            context.Set<Item>().Add(new Item() {Stuff = "Hello"});
+            //context.Set<Item>().Add(new Item() {Stuff = "Hello"});
             context.SaveChanges();
             Console.Read();
             

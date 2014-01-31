@@ -10,8 +10,9 @@
 <#@ import namespace="System.Data.Entity.Infrastructure"#>
 <#@ parameter type="System.Collections.Generic.List<Type>" name="Types"#>
 <#@ parameter type="System.Collections.Generic.List<String>" name="Assemblies"#>
+<#@ parameter type="System.Boolean" name="MigrateToLatestVersion"#>
 
-namespace EFMigrations 
+namespace EFMigrations
 {
 	using System.Data.Entity.Migrations;
 	using System.Data.Entity;
@@ -19,6 +20,8 @@ namespace EFMigrations
 	using System.Data.Entity.Validation;
 	using EFAutomation;
 	using System.Collections.Generic;
+	using System.Threading;
+	using System.Threading.Tasks;
 
 	<#foreach(var assembly in Assemblies)
 		 { #>
@@ -28,7 +31,12 @@ namespace EFMigrations
 
 	public class Context : DbContext, IContext
 	{
-		public Context(string connection) : base(connection) {}
+		public Context(string connection) : base(connection) 
+		{
+			<# if(MigrateToLatestVersion) {#>
+			Database.SetInitializer(new MigrateDatabaseToLatestVersion<Context, Configuration>());
+			<#}#>
+		}
 		<#foreach(var type in Types) 
 			{#>
 			
@@ -36,8 +44,10 @@ namespace EFMigrations
 
 		<# } #>
 
+
 		public event ModelCreatingEventHandler ModelCreating;
 		public event SavingChangesEventHandler SavingChanges;
+		public event ValidatingEntityEventHandler ValidatingEntity;
 				
 		public new bool ShouldValidateEntity(DbEntityEntry entityEntry){ 
 			return base.ShouldValidateEntity(entityEntry);
@@ -49,17 +59,31 @@ namespace EFMigrations
 			return base.SaveChanges();
 		}
 
-		public new void OnModelCreating(DbModelBuilder modelBuilder){
+		public override Task<int> SaveChangesAsync() {
+			if(SavingChanges != null)
+				SavingChanges(this, new SavingChangesEventArgs(){ Context = this });
+			return base.SaveChangesAsync();
+		}
 
+		public new void OnModelCreating(DbModelBuilder modelBuilder){
 			if(ModelCreating != null)
 				ModelCreating(this, new ModelBuilderEventArgs(){ ModelBuilder = modelBuilder } );
 			base.OnModelCreating(modelBuilder);
 		}
 
+		public new Task<int> SaveChangesAsync(CancellationToken cancellationToken) {
+			if(SavingChanges != null)
+				SavingChanges(this, new SavingChangesEventArgs(){ Context = this });
+			return base.SaveChangesAsync(cancellationToken);
+		}
+
 		public new DbEntityValidationResult ValidateEntity(DbEntityEntry entityEntry, IDictionary<object, object> items)
 		{
+			if(ValidatingEntity != null)
+				ValidatingEntity(this, new ValidatingEntityEventArgs(){ EntityEntry = entityEntry, Items = items }); 
 			return base.ValidateEntity(entityEntry, items);
 		}
+
 	}
 
 	public class ContextFactory : IDbContextFactory<Context>
@@ -69,14 +93,15 @@ namespace EFMigrations
 			return new Context("DefaultConnection");
 		}
 	}
-	
+	 
 	public class Configuration : DbMigrationsConfiguration<Context>
 	{
 		public Configuration()
 		{
-			AutomaticMigrationsEnabled = true;
-			//MigrationsDirectory = "Migrations";
-			AutomaticMigrationDataLossAllowed = true;
+			<# if(MigrateToLatestVersion) {#>
+				AutomaticMigrationsEnabled = true;
+				AutomaticMigrationDataLossAllowed = true;
+			<# } #>
 		}
 
 				
