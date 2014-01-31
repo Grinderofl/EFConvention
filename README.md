@@ -49,8 +49,10 @@ IContext context = contextFactory.CreateContext();
 ```
 
 #### Events
-**All events fire before their base events***
+**All events fire before their base events**
+
 IContext declares several events.
+
 * SavingChanges
 ```c#
 context.SavingChanges += (sender, args) => { args.Context.(...);/* args.Context is IContext */ };
