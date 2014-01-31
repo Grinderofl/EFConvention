@@ -121,7 +121,7 @@ foreach(var type in Types)
 			return new Context(""DefaultConnection"");
 		}
 	}
-	/*
+	
 	public class Configuration : DbMigrationsConfiguration<Context>
 	{
 		public Configuration()
@@ -131,8 +131,8 @@ foreach(var type in Types)
 			AutomaticMigrationDataLossAllowed = true;
 		}
 
-		
-	}*/
+				
+	}
 }");
             return this.GenerationEnvironment.ToString();
         }

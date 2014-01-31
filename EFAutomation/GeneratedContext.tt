@@ -69,7 +69,7 @@ namespace EFMigrations
 			return new Context("DefaultConnection");
 		}
 	}
-	/*
+	
 	public class Configuration : DbMigrationsConfiguration<Context>
 	{
 		public Configuration()
@@ -79,6 +79,6 @@ namespace EFMigrations
 			AutomaticMigrationDataLossAllowed = true;
 		}
 
-		
-	}*/
+				
+	}
 }
