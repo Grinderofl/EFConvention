@@ -30,3 +30,10 @@ Use your context in a repository or wherever
 var context = contextFactory.GenerateContext();
 var items = context.Set<OneOfPocoClasses>().Where(...);
 ```
+
+
+### New:
+EFAutomation is a convention based extension library for Entity Framework to automate several tasks currently cumbersome to do. It allows developers to create an Entity Framework based Context without having to specify each entity by putting it as DbSet<> as property. 
+
+#### Migrations:
+EFAutomation supports Code First Migrations - both automatic and, as a new feature - code based automatic. This means that the library generates the Code First files on its own, migrating them as needed, with possibility to choose when and how to migrate.
