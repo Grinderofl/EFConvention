@@ -3,6 +3,8 @@ EFAutomation
 
 EFAutomation is a convention based extension library for Entity Framework to automate several tasks currently cumbersome to do. It allows developers to create an Entity Framework based Context without having to specify each entity by putting it as DbSet<> as property. 
 
+NuGet: http://www.nuget.org/packages/EFAutomation/
+
 Basic usage
 ============
 
