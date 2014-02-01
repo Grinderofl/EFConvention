@@ -5,9 +5,8 @@ using System.Web;
 
 namespace WebTest.Models
 {
-    public class Item
+    public class Item : BaseEntity
     {
-        public int Id { get; set; }
         public DateTime Created { get; set; }
         public string Data { get; set; }
         public string Data2 { get; set; }

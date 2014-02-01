@@ -110,7 +110,7 @@ namespace EFMigrations
 		protected override void Seed(Context context)
 		{
 			if(Seeding != null)
-				Seeding(this, (IContext)context);
+				Seeding(this, new SeedingEventArgs(){ Context = (IContext)context });
 		}
 				
 	}

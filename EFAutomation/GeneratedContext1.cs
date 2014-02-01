@@ -23,7 +23,7 @@ namespace EFAutomation
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+    #line 1 "C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "12.0.0.0")]
     public partial class GeneratedContext : GeneratedContextBase
     {
@@ -47,7 +47,7 @@ namespace EFMigrations
 
 	");
             
-            #line 27 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 27 "C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
 foreach(var assembly in Assemblies)
 		 { 
             
@@ -55,14 +55,14 @@ foreach(var assembly in Assemblies)
             #line hidden
             this.Write("\t\t\tusing ");
             
-            #line 29 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 29 "C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(assembly));
             
             #line default
             #line hidden
             this.Write(";\r\n\t\t");
             
-            #line 30 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 30 "C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
  } 
             
             #line default
@@ -70,7 +70,7 @@ foreach(var assembly in Assemblies)
             this.Write("\r\n\r\n\tpublic class Context : DbContext, IContext\r\n\t{\r\n\t\tpublic Context(string conn" +
                     "ection) : base(connection) \r\n\t\t{\r\n\t\t\t");
             
-            #line 37 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 37 "C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
  if(MigrateToLatestVersion) {
             
             #line default
@@ -78,14 +78,14 @@ foreach(var assembly in Assemblies)
             this.Write("\t\t\tDatabase.SetInitializer(new MigrateDatabaseToLatestVersion<Context, Configurat" +
                     "ion>());\r\n\t\t\t");
             
-            #line 39 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 39 "C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
 }
             
             #line default
             #line hidden
             this.Write("\t\t}\r\n\t\t");
             
-            #line 41 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 41 "C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
 foreach(var type in Types) 
 			{
             
@@ -93,21 +93,21 @@ foreach(var type in Types)
             #line hidden
             this.Write("\t\t\t\r\n\t\t\tpublic DbSet<");
             
-            #line 44 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 44 "C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(type.Name));
             
             #line default
             #line hidden
             this.Write("> ");
             
-            #line 44 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 44 "C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(type.Name));
             
             #line default
             #line hidden
             this.Write("s { get; set; }\r\n\r\n\t\t");
             
-            #line 46 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 46 "C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
  } 
             
             #line default
@@ -134,7 +134,7 @@ foreach(var type in Types)
                     "Factory : IDbContextFactory<Context>\r\n\t{\r\n\t\tpublic Context Create()\r\n\t\t{\r\n\t\t\tret" +
                     "urn new Context(\"");
             
-            #line 94 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 94 "C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Connection));
             
             #line default
@@ -142,7 +142,7 @@ foreach(var type in Types)
             this.Write("\");\r\n\t\t}\r\n\t}\r\n\t \r\n\tpublic class Configuration : DbMigrationsConfiguration<Context" +
                     ">, IDbMigrationsConfiguration\r\n\t{\r\n\t\tpublic Configuration()\r\n\t\t{\r\n\t\t\t");
             
-            #line 102 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 102 "C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
  if(MigrateToLatestVersion) {
             
             #line default
@@ -150,18 +150,18 @@ foreach(var type in Types)
             this.Write("\t\t\t\tAutomaticMigrationsEnabled = true;\r\n\t\t\t\tAutomaticMigrationDataLossAllowed = t" +
                     "rue;\r\n\t\t\t");
             
-            #line 105 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+            #line 105 "C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\t\t}\r\n\r\n\t\tpublic event SeedingEventHandler Seeding;\r\n\r\n\t\tprotected override void S" +
-                    "eed(Context context)\r\n\t\t{\r\n\t\t\tif(Seeding != null)\r\n\t\t\t\tSeeding(this, (IContext)c" +
-                    "ontext);\r\n\t\t}\r\n\t\t\t\t\r\n\t}\r\n}");
+                    "eed(Context context)\r\n\t\t{\r\n\t\t\tif(Seeding != null)\r\n\t\t\t\tSeeding(this, new Seeding" +
+                    "EventArgs(){ Context = (IContext)context });\r\n\t\t}\r\n\t\t\t\t\r\n\t}\r\n}");
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 1 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
+        #line 1 "C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\EFAutomation\GeneratedContext.tt"
 
 private global::System.Collections.Generic.List<Type> _TypesField;
 

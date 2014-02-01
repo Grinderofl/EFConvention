@@ -22,16 +22,16 @@ namespace WebTest.Controllers
             _autoContextFactory.Configuration.AutoMigrateGeneratedMigrationsEnabled = true;
             _autoContextFactory.Configuration.MigrationsDirectory =
                 @"C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\WebTest\Migrations";
+            _autoContextFactory.AddEntitiesBasedOn<BaseEntity>().AddAssemblyContaining<BaseEntity>();
             _autoContextFactory.Seeding += (sender, context) =>
             {
-                context.Set<Item>().AddOrUpdate(a => a.Data, new Item() {Data = "hello" + 3, Created = DateTime.Now});
+                context.Context.Set<Item>().AddOrUpdate(a => a.Data, new Item() {Data = "hello" + 3, Created = DateTime.Now});
             };
 
         }
 
         public ActionResult Index()
         {
-            _autoContextFactory.AddEntity<Item>();
             var context = _autoContextFactory.Context();
             context.ModelCreating += (sender, args) => { };
             context.SavingChanges += (sender, args) =>
@@ -45,6 +45,7 @@ namespace WebTest.Controllers
             };
             context.Set<Item>().Add(new Item());
             context.SaveChanges();
+            var context2 = _autoContextFactory.Context();
             return View();
         }
 

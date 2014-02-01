@@ -125,10 +125,10 @@ namespace EFAutomation
                         new object[] { "DefaultConnection" }, CultureInfo.CurrentCulture, null);
         }
 
-        private void DbMigrationsConfigurationOnSeeding(object sender, IContext context)
+        private void DbMigrationsConfigurationOnSeeding(object sender, SeedingEventArgs args)
         {
             if (Seeding != null)
-                Seeding(sender, _context);
+                Seeding(sender, args);
         }
 
         public IContext Context()

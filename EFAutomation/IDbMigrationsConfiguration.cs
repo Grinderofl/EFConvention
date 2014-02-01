@@ -33,5 +33,5 @@ namespace EFAutomation
         void SetSqlGenerator(string providerInvariantName, MigrationSqlGenerator migrationSqlGenerator);
     }
 
-    public delegate void SeedingEventHandler(object sender, IContext context);
+    public delegate void SeedingEventHandler(object sender, SeedingEventArgs context);
 }

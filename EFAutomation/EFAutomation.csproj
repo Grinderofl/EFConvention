@@ -69,6 +69,7 @@
     <Compile Include="ModelBuilderEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SavingChangesEventArgs.cs" />
+    <Compile Include="SeedingEventArgs.cs" />
     <Compile Include="ValidatingEntityEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
