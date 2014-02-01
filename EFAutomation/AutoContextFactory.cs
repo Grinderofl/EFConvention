@@ -20,6 +20,9 @@ using Microsoft.CSharp;
 
 namespace EFAutomation
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class AutoContextFactory : IAutoContextFactory
     {
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -66,6 +69,21 @@ namespace EFAutomation
             return this;
         }
 
+        public List<Type> IncludedTypes()
+        {
+            var types = new List<Type>();
+            foreach (var assembly in _assemblies)
+            {
+                foreach (var entity in _subClassesOf)
+                {
+                    var entity1 = entity;
+                    types.AddRange(assembly.GetTypes().Where(x => x.IsSubclassOf(entity1) && !x.IsAbstract));
+                }
+            }
+            types.AddRange(_singleClasses);
+            return types.Distinct().ToList();
+        }
+
         #endregion
 
         public AutoContextFactory()
@@ -93,15 +111,7 @@ namespace EFAutomation
         private void CompileAssembliesAndCreateClasses()
         {
             var compilerParameters = DefaultCompilerParameters();
-            var types = new List<Type>();
-            foreach (var assembly in _assemblies)
-            {
-                foreach (var entity in _subClassesOf)
-                {
-                    var entity1 = entity;
-                    types.AddRange(assembly.GetTypes().Where(x => x.IsSubclassOf(entity1) && !x.IsAbstract));
-                }
-            }
+            var types = IncludedTypes();
             types.AddRange(_singleClasses);
             types = types.Distinct().ToList();
             compilerParameters.ReferencedAssemblies.AddRange(

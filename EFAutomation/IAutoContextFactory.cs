@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace EFAutomation
@@ -32,6 +34,12 @@ namespace EFAutomation
         /// <param name="assembly">Assembly to add</param>
         /// <returns>AutoContextFactory for fluent chaining</returns>
         IAutoContextFactory AddAssembly(Assembly assembly);
+
+        /// <summary>
+        /// Gets all included types in the context
+        /// </summary>
+        /// <returns></returns>
+        List<Type> IncludedTypes();
 
         /// <summary>
         /// Creates the context
