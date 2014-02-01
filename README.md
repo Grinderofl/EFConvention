@@ -101,6 +101,6 @@ TODO
 ==========
 * Perhaps give separate events for async savechanges?
 
-KNOW BUGS
+Known bugs
 ==========
 * Might have random file access errors.
