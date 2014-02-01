@@ -94,3 +94,4 @@ factory.Seeding += (sender, args) => { args.Context.(...); /* args.Context is IC
 TODO
 ==========
 * Perhaps give separate events for async savechanges?
+* Allow loading migrations from a compiled assembly and saving compiled assembly into a file instead, for deployment purposes.
