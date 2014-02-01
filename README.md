@@ -90,3 +90,7 @@ context.ModelCreating += (sender, args) => { args.ModelBuilder.(...);/* args.Mod
 factory.Seeding += (sender, args) => { args.Context.(...); /* args.Context is IContext */ };
 ```
 
+
+TODO
+==========
+* Perhaps give separate events for async savechanges?
