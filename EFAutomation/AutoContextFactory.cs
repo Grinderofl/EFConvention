@@ -15,7 +15,6 @@ using System.Runtime.InteropServices;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
-using Core;
 using EFAutomation.Exceptions;
 using Microsoft.CSharp;
 

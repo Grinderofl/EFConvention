@@ -64,10 +64,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{BC0E4111-A9FA-4CF9-943C-085756D56419}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\EFAutomation\EFAutomation.csproj">
       <Project>{01c44ab3-65a5-4bb4-882e-59254833b913}</Project>
       <Name>EFAutomation</Name>
