@@ -16,5 +16,7 @@ namespace EFAutomation
         //public CodeDomProvider CodeProvider { get; set; }
         public string Connection { get; set; }
         public bool AutoMigrateGeneratedMigrationsEnabled { get; set; }
+        public bool MigrationsAssemblyAsFile { get; set; }
+        public string MigrationsAssemblyFileLocation { get; set; }
     }
 }

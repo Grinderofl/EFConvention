@@ -22,6 +22,9 @@ namespace WebTest.Controllers
             _autoContextFactory.Configuration.AutoMigrateGeneratedMigrationsEnabled = true;
             _autoContextFactory.Configuration.MigrationsDirectory =
                 @"C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\WebTest\Migrations";
+            _autoContextFactory.Configuration.MigrationsAssemblyAsFile = true;
+            _autoContextFactory.Configuration.MigrationsAssemblyFileLocation =
+                @"C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\WebTest\Migrations\Migrations.dll";
             _autoContextFactory.AddEntitiesBasedOn<BaseEntity>().AddAssemblyContaining<BaseEntity>();
             _autoContextFactory.Seeding += (sender, context) =>
             {
