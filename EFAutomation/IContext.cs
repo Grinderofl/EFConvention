@@ -43,7 +43,7 @@ namespace EFAutomation
         /// </summary>
         /// <returns>Collection of validation results for invalid entities. The collection is never null and must not contain null values or results for valid entities.</returns>
         IEnumerable<DbEntityValidationResult> GetValidationErrors();
-        /// <summary>
+        /*/// <summary>
         /// This method is called when the model for a derived context has been initialized, but before the model has been locked down and used to initialize the context. The default implementation of this method does nothing, but it can be overridden in a derived class such that the model can be further configured before it is locked down.
         /// </summary>
         /// <param name="modelBuilder">The builder that defines the model for the context being created.</param>
@@ -51,7 +51,7 @@ namespace EFAutomation
         /// <summary>
         /// Saves all changes made in this context to the underlying database.
         /// </summary>
-        /// <returns>The number of objects written to the underlying database.</returns>
+        /// <returns>The number of objects written to the underlying database.</returns>*/
         int SaveChanges();
         /// <summary>
         /// Asynchronously saves all changes made in this context to the underlying database.

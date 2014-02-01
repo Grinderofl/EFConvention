@@ -24,7 +24,9 @@ namespace EFAutomation
         /// <summary>
         /// Code provider to use for T4 generation. Only change if you know what you are doing.
         /// </summary>
-        CodeDomProvider CodeProvider { get; set; }
+        //CodeDomProvider CodeProvider { get; set; }
+
+
         /// <summary>
         /// Connection string or connection string name.
         /// </summary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Web;
@@ -21,6 +22,10 @@ namespace WebTest.Controllers
             _autoContextFactory.Configuration.AutoMigrateGeneratedMigrationsEnabled = true;
             _autoContextFactory.Configuration.MigrationsDirectory =
                 @"C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\WebTest\Migrations";
+            _autoContextFactory.Seeding += (sender, context) =>
+            {
+                context.Set<Item>().AddOrUpdate(a => a.Data, new Item() {Data = "hello" + 3, Created = DateTime.Now});
+            };
 
         }
 

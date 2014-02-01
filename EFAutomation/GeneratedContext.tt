@@ -11,6 +11,7 @@
 <#@ parameter type="System.Collections.Generic.List<Type>" name="Types"#>
 <#@ parameter type="System.Collections.Generic.List<String>" name="Assemblies"#>
 <#@ parameter type="System.Boolean" name="MigrateToLatestVersion"#>
+<#@ parameter type="System.String" name="Connection"#>
 
 namespace EFMigrations
 {
@@ -65,7 +66,7 @@ namespace EFMigrations
 			return base.SaveChangesAsync();
 		}
 
-		public new void OnModelCreating(DbModelBuilder modelBuilder){
+		protected override void OnModelCreating(DbModelBuilder modelBuilder){
 			if(ModelCreating != null)
 				ModelCreating(this, new ModelBuilderEventArgs(){ ModelBuilder = modelBuilder } );
 			base.OnModelCreating(modelBuilder);
@@ -90,11 +91,11 @@ namespace EFMigrations
 	{
 		public Context Create()
 		{
-			return new Context("DefaultConnection");
+			return new Context("<#= Connection #>");
 		}
 	}
 	 
-	public class Configuration : DbMigrationsConfiguration<Context>
+	public class Configuration : DbMigrationsConfiguration<Context>, IDbMigrationsConfiguration
 	{
 		public Configuration()
 		{
@@ -104,6 +105,13 @@ namespace EFMigrations
 			<# } #>
 		}
 
+		public event SeedingEventHandler Seeding;
+
+		protected override void Seed(Context context)
+		{
+			if(Seeding != null)
+				Seeding(this, (IContext)context);
+		}
 				
 	}
 }

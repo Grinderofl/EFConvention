@@ -32,6 +32,7 @@ namespace EFAutomation
         /// <param name="assembly">Assembly to add</param>
         /// <returns>AutoContextFactory for fluent chaining</returns>
         IAutoContextFactory AddAssembly(Assembly assembly);
+
         /// <summary>
         /// Creates the context
         /// </summary>
@@ -39,5 +40,8 @@ namespace EFAutomation
         IContext Context();
         void MigrateToLatest();
         void GenerateMigrations();
+
+        event SeedingEventHandler Seeding;
+
     }
 }
