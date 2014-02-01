@@ -73,6 +73,8 @@ Context is **factory persistent**. Once created, it stays the way it is for the 
 
 * **GenerateMigrations()** - Generates migrations and saves them under specified migrations directory (and also causes context to be generated if it hasn't yet). _Does not automatically migrate_.
 
+* **IncludedTypes()** - Returns a list of types currently included in the context.
+
 **NB! Order of operations is important. Any other method should be called before Context(), MigratToLatest() or GenerateMigrations() are called for the first time on Factory** 
 
 Events
