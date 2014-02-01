@@ -48,6 +48,10 @@ Context is **factory persistent**. Once created, it stays the way it is for the 
 
 * **Connection** - your standard connectionstring or connectionstring name
 
+* **MigrationsAssemblyAsFile** - option used if you want migrations to be compiled into a file or loaded from an existing file. Useful if you want to deploy your application but not distribute the .cs  files. Make sure to set the file name.
+
+* **MigrationsAssemblyFileLocation** - name of the file the compiled migration assembly should be saved to. Only functions when MigrationsAssemblyAsFile is true.
+
 **NB! Order of operations is important. Any configuration should be done before Context(), MigratToLatest() or GenerateMigrations() are called for the first time on Factory**
 
 ### Factory
@@ -94,4 +98,7 @@ factory.Seeding += (sender, args) => { args.Context.(...); /* args.Context is IC
 TODO
 ==========
 * Perhaps give separate events for async savechanges?
-* Allow loading migrations from a compiled assembly and saving compiled assembly into a file instead, for deployment purposes.
+
+KNOW BUGS
+==========
+* Might have random file access errors.
