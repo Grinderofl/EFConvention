@@ -4,6 +4,9 @@ using System.Reflection;
 
 namespace EFAutomation
 {
+    /// <summary>
+    /// Auto Context Factory interface
+    /// </summary>
     public interface IAutoContextFactory
     {
         /// <summary>
@@ -46,9 +49,18 @@ namespace EFAutomation
         /// </summary>
         /// <returns>Created IContext</returns>
         IContext Context();
+        /// <summary>
+        /// Migrates database to latest version
+        /// </summary>
         void MigrateToLatest();
+        /// <summary>
+        /// Generates freshest migrations
+        /// </summary>
         void GenerateMigrations();
 
+        /// <summary>
+        /// Event that is fired on seeding the database
+        /// </summary>
         event SeedingEventHandler Seeding;
 
     }

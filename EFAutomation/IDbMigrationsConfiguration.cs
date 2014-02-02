@@ -14,8 +14,14 @@ using System.Threading.Tasks;
 
 namespace EFAutomation
 {
+    /// <summary>
+    /// DbMigrations Configuration interface
+    /// </summary>
     public interface IDbMigrationsConfiguration
     {
+        /// <summary>
+        /// Event fired on seeding database
+        /// </summary>
         event SeedingEventHandler Seeding;
         bool AutomaticMigrationDataLossAllowed { get; set; }
         bool AutomaticMigrationsEnabled { get; set; }

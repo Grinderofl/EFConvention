@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace EFAutomation
 {
+    /// <summary>
+    /// Context interface
+    /// </summary>
     public interface IContext : IDisposable, IObjectContextAdapter
     {
         /// <summary>
@@ -47,11 +50,11 @@ namespace EFAutomation
         /// This method is called when the model for a derived context has been initialized, but before the model has been locked down and used to initialize the context. The default implementation of this method does nothing, but it can be overridden in a derived class such that the model can be further configured before it is locked down.
         /// </summary>
         /// <param name="modelBuilder">The builder that defines the model for the context being created.</param>
-        void OnModelCreating(DbModelBuilder modelBuilder);
+        void OnModelCreating(DbModelBuilder modelBuilder);*/
         /// <summary>
         /// Saves all changes made in this context to the underlying database.
         /// </summary>
-        /// <returns>The number of objects written to the underlying database.</returns>*/
+        /// <returns>The number of objects written to the underlying database.</returns>
         int SaveChanges();
         /// <summary>
         /// Asynchronously saves all changes made in this context to the underlying database.
@@ -71,7 +74,6 @@ namespace EFAutomation
         /// <param name="entityType">The type entity for which a set should be returned.</param>
         /// <returns>A set for the given entity type.</returns>
         DbSet Set(Type entityType);
-
         /// <summary>
         /// Returns a DbSet instance for access to entities of the given type in the context, the ObjectStateManager, and the underlying store.
         /// </summary>
@@ -107,9 +109,22 @@ namespace EFAutomation
 
     }
 
+    /// <summary>
+    /// EventHandler for model creation
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e">ModelBuilder EventArgs</param>
     public delegate void ModelCreatingEventHandler(object sender, ModelBuilderEventArgs e);
-
+    /// <summary>
+    /// EventHandler for saving changes
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e">SavingChanges EventArgs</param>
     public delegate void SavingChangesEventHandler(object sender, SavingChangesEventArgs e);
-
+    /// <summary>
+    /// EventHandler for Validating Entity
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e">ValidatingEntity EventArgs</param>
     public delegate void ValidatingEntityEventHandler(object sender, ValidatingEntityEventArgs e);
 }

@@ -40,6 +40,9 @@ namespace EFAutomation
         private IDbMigrationsConfiguration _dbMigrationsConfiguration;
         private CSharpCodeProvider _codeProvider;
         private bool _migrated = false;
+        /// <summary>
+        /// Event fired on seeding
+        /// </summary>
         public event SeedingEventHandler Seeding;
         private CompilerResults _compilerResults;
         //private ProxyDomain _proxyDomain;
@@ -86,6 +89,9 @@ namespace EFAutomation
 
         #endregion
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public AutoContextFactory()
         {
             _contextGenerator = new GeneratedContext();
@@ -103,6 +109,10 @@ namespace EFAutomation
             };
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="configuration">AutoContextFactoryConfiguration entity</param>
         public AutoContextFactory(IAutoContextFactoryConfiguration configuration) : this()
         {
             Configuration = configuration;

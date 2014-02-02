@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace EFAutomation
 {
+    // Possible future class to use appdomain for loading the generators
     internal class ProxyDomain : MarshalByRefObject
     {
         public Assembly GetAssembly(string assemblyPath)
