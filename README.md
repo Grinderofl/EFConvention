@@ -59,11 +59,23 @@ Context is **factory persistent**. Once created, it stays the way it is for the 
 ### Factory
 * **Configuration** - IAutoContextFactoryConfiguration for configuring the factory
 
-* **AddEntitiesBasedOn<T>()** - This method allows convention based adding of entities to the context. All entities that are not abstract and are based on this class (or these classes, if you add more than one) are automatically added. Assemblies to be searched from also needs to be added.
+* **AddEntitiesBasedOn&lt;T&gt;()** - This method allows convention based adding of entities to the context. All entities that are not abstract and are based on this class (or these classes, if you add more than one) are automatically added. Assemblies to be searched from also needs to be added.
 
-* **AddEntity<T>()** - Adds a single entity to context.
+* **AddEntity&lt;T&gt;()** - Adds a single entity to context.
 
-* **AddAssemblyContaining<T>()** - Adds an assembly which should be searched for convention-added classes, which contains specified class.
+* **AddAssemblyContaining&lt;T&gt;()** - Adds an assembly which should be searched for convention-added classes, which contains specified class.
+```c#
+public class EntityBase
+{
+  public int Id { get; set;
+}
+
+public class EntityOne : EntityBase {}
+public class EntityTwo : EntityBase {}
+
+factory.AddEntitiesBasedOn<EntityBase>().AddAssemblyContaining<EntityOne>(); 
+// Adds EntityOne and EntityTwo to context
+```
 
 * **AddAssembly(Assembly assembly)** - Adds a single assembly that should be searched for convention-added classes.
 
