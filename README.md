@@ -114,6 +114,7 @@ factory.Seeding += (sender, args) => { args.Context.(...); /* args.Context is IC
 TODO
 ==========
 * Perhaps give separate events for async savechanges?
+* Add methods to retrieve currently added assemblies or base entities.
 
 Known bugs
 ==========
