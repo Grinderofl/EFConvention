@@ -113,6 +113,7 @@ factory.Seeding += (sender, args) => { args.Context.(...); /* args.Context is IC
 
 TODO
 ==========
+* Make Context disposable to apply to EF lifecycle
 * Perhaps give separate events for async savechanges?
 * Add methods to retrieve currently added assemblies or base entities.
 * Add Identity support.
