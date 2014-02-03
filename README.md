@@ -37,6 +37,8 @@ Factory lifecyle should be same as your applicatin lifecycle. Every Context() ca
 ### Context
 EFAutomation declares an IContext interface which declares effectively same functions as original DbContext and adds some of its own, such as events. You are free to cast it to standard DbContext if you wish.
 
+Context() call from Factory also accepts a string parameter for connection string, either full connectionstring or the name of it, just like standard DbContext. It's suggested to just set the Connection option under Configuration property, though.
+
 ### Configuration
 **IAutoContextFactoryConfiguration** provides several configuration options. 
 * **MigrationsDirectory** - where you want the program to store its migration files. The files are standard Code First Migration files. This directory should be included in your source control to allow synchronized migrations between developers.
