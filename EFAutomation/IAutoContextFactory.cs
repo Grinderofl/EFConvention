@@ -47,8 +47,9 @@ namespace EFAutomation
         /// <summary>
         /// Creates the context
         /// </summary>
+        /// <param name="connectionString"></param>
         /// <returns>Created IContext</returns>
-        IContext Context();
+        IContext Context(string connectionString = "");
         /// <summary>
         /// Migrates database to latest version
         /// </summary>

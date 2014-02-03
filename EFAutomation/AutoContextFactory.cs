@@ -160,7 +160,12 @@ namespace EFAutomation
                 Seeding(sender, args);
         }
 
-        public IContext Context()
+        /// <summary>
+        /// Creates a context
+        /// </summary>
+        /// <param name="connectionString">Optional connection string, if unset, taken from Configuration.Connection</param>
+        /// <returns>Instance of type IContext</returns>
+        public IContext Context(string connectionString = "")
         {
             if(_compilerResults == null || _compilerResults.CompiledAssembly == null) 
                 CompileAssembliesAndCreateClasses();
@@ -168,8 +173,14 @@ namespace EFAutomation
             if(Configuration.AutoMigrateGeneratedMigrationsEnabled && !_migrated)
                 MigrateToLatest();
 
-            return (IContext)_compilerResults.CompiledAssembly.CreateInstance("EFMigrations.Context", false, BindingFlags.CreateInstance, null,
-                        new object[] { "DefaultConnection" }, CultureInfo.CurrentCulture, null);
+            if(connectionString == "")
+                connectionString = Configuration.Connection;
+
+            return
+                (IContext)
+                    _compilerResults.CompiledAssembly.CreateInstance("EFMigrations.Context", false,
+                        BindingFlags.CreateInstance, null,
+                        new object[] {connectionString}, CultureInfo.CurrentCulture, null);
         }
 
         public void MigrateToLatest()
