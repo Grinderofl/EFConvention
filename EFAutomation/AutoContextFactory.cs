@@ -36,7 +36,6 @@ namespace EFAutomation
         private readonly List<Type> _subClassesOf = new List<Type>();
         private readonly List<Type> _singleClasses = new List<Type>();
         private readonly GeneratedContext _contextGenerator;
-        private IContext _context;
         private IDbMigrationsConfiguration _dbMigrationsConfiguration;
         private CSharpCodeProvider _codeProvider;
         private bool _migrated = false;
@@ -145,8 +144,6 @@ namespace EFAutomation
                 throw new AssemblyCompilationErrorsException(_compilerResults.Errors);
 
             CreateMigrationsConfiguration();
-            _context = (IContext)_compilerResults.CompiledAssembly.CreateInstance("EFMigrations.Context", false, BindingFlags.CreateInstance, null,
-                        new object[] { "DefaultConnection" }, CultureInfo.CurrentCulture, null);
         }
 
         private void CreateMigrationsConfiguration()
@@ -165,13 +162,14 @@ namespace EFAutomation
 
         public IContext Context()
         {
-            if(_context == null)
+            if(_compilerResults == null || _compilerResults.CompiledAssembly == null) 
                 CompileAssembliesAndCreateClasses();
 
             if(Configuration.AutoMigrateGeneratedMigrationsEnabled && !_migrated)
                 MigrateToLatest();
 
-            return _context;
+            return (IContext)_compilerResults.CompiledAssembly.CreateInstance("EFMigrations.Context", false, BindingFlags.CreateInstance, null,
+                        new object[] { "DefaultConnection" }, CultureInfo.CurrentCulture, null);
         }
 
         public void MigrateToLatest()
