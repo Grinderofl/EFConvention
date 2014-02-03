@@ -75,6 +75,8 @@
 
 <p>EFAutomation declares an IContext interface which declares effectively same functions as original DbContext and adds some of its own, such as events. You are free to cast it to standard DbContext if you wish.</p>
 
+<p>Context() call from Factory also accepts a string parameter for connection string, either full connectionstring or the name of it, just like standard DbContext. It's suggested to just set the Connection option under Configuration property, though.</p>
+
 <h3>
 <a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h3>
 
