@@ -31,10 +31,11 @@ context.SaveChanges();
 Detailed info
 =============
 
+### Lifecycle
+Factory lifecyle should be same as your applicatin lifecycle. Every Context() call checks if database has already been migrated, provided AutoMigrateGeneratedMigrationsEnabled is set to true. If you manage migrations manually, lifecycle can be anything and you will be responsible for performance and errors. IContext lifecycle can be anything you would normally set a standard DbContext to.
+
 ### Context
 EFAutomation declares an IContext interface which declares effectively same functions as original DbContext and adds some of its own, such as events. You are free to cast it to standard DbContext if you wish.
-
-Context is **factory persistent**. Once created, it stays the way it is for the entire lifecycle of the factory. Any events added to the context are also present in every other Context() call. This is due a few sacrifices needed to make in order to give the factory a little bit of modularity.
 
 ### Configuration
 **IAutoContextFactoryConfiguration** provides several configuration options. 
@@ -113,7 +114,6 @@ factory.Seeding += (sender, args) => { args.Context.(...); /* args.Context is IC
 
 TODO
 ==========
-* Make Context disposable to apply to EF lifecycle
 * Perhaps give separate events for async savechanges?
 * Add methods to retrieve currently added assemblies or base entities.
 * Add Identity support.
