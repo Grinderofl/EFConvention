@@ -115,6 +115,7 @@ TODO
 ==========
 * Perhaps give separate events for async savechanges?
 * Add methods to retrieve currently added assemblies or base entities.
+* Add Identity support.
 
 Known bugs
 ==========
