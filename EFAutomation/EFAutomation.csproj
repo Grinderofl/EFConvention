@@ -56,14 +56,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoContextFactoryConfiguration.cs" />
-    <Compile Include="AutoContextFactory.cs" />
+    <Compile Include="MigrationConfiguration.cs" />
+    <Compile Include="Context.cs" />
     <Compile Include="Exceptions\AssemblyCompilationErrorsException.cs" />
     <Compile Include="Exceptions\MigrationsOutOfDateException.cs" />
-    <Compile Include="GeneratedContext1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GeneratedContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="IAutoContextFactory.cs" />
     <Compile Include="IAutoContextFactoryConfiguration.cs" />
     <Compile Include="IContext.cs" />
@@ -78,6 +74,7 @@
     <Compile Include="ProxyDomain.cs" />
     <Compile Include="SavingChangesEventArgs.cs" />
     <Compile Include="SeedingEventArgs.cs" />
+    <Compile Include="AutoContextFactory.cs" />
     <Compile Include="ValidatingEntityEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -85,10 +82,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="EFAutomationKey.pfx" />
-    <None Include="GeneratedContext.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>GeneratedContext1.cs</LastGenOutput>
-    </None>
     <None Include="MigrationDesignerGenerator.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>MigrationDesignerGenerator.cs</LastGenOutput>

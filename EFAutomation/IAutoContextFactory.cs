@@ -64,5 +64,23 @@ namespace EFAutomation
         /// </summary>
         event SeedingEventHandler Seeding;
 
+        /// <summary>
+        /// Lists all assemblies that are searched for entities to be included in Context that are based on a Base Entity.
+        /// </summary>
+        /// <returns>List of assemblies</returns>
+        List<Assembly> AssembliesThatContain();
+
+        /// <summary>
+        /// Lists all single types that are to be included in the context.
+        /// </summary>
+        /// <returns>List of types</returns>
+        List<Type> Entities();
+
+        /// <summary>
+        /// Lists all types 
+        /// </summary>
+        /// <returns></returns>
+        List<Type> EntitiesToBaseOn();
+
     }
 }

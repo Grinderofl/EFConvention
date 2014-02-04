@@ -95,10 +95,6 @@ namespace EFAutomation
         DbEntityValidationResult ValidateEntity(DbEntityEntry entityEntry, IDictionary<Object, Object> items);
 
         /// <summary>
-        /// Event that occurs when model is being created
-        /// </summary>
-        event ModelCreatingEventHandler ModelCreating;
-        /// <summary>
         /// Event that occurs when changes are being saved
         /// </summary>
         event SavingChangesEventHandler SavingChanges;
