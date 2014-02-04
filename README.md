@@ -57,7 +57,7 @@ Context() call from Factory also accepts a string parameter for connection strin
 
 * **MigrationsAssemblyFileLocation** - name of the file the compiled migration assembly should be saved to. Only functions when MigrationsAssemblyAsFile is true.
 
-**NB! Order of operations is important. Any configuration should be done before Context(), MigratToLatest() or GenerateMigrations() are called for the first time on Factory**
+**NB! Order of operations is important. Any configuration should be done before Context(), MigrateToLatest() or GenerateMigrations() are called for the first time on Factory, although before migrating, anything ought to work.**
 
 ### Factory
 * **Configuration** - IAutoContextFactoryConfiguration for configuring the factory
@@ -89,6 +89,9 @@ factory.AddEntitiesBasedOn<EntityBase>().AddAssemblyContaining<EntityOne>();
 * **GenerateMigrations()** - Generates migrations and saves them under specified migrations directory (and also causes context to be generated if it hasn't yet). _Does not automatically migrate_.
 
 * **IncludedTypes()** - Returns a list of types currently included in the context.
+* **AssembliesThatContain()** - Returns a list of assemblies that should be searched.
+* **Entities()** - Returns a list of types that are single included in context.
+* **EntitiesToBaseOn()** - Returns a list of base types to be used for searching.
 
 **NB! Order of operations is important. Any other method should be called before Context(), MigratToLatest() or GenerateMigrations() are called for the first time on Factory** 
 
@@ -102,22 +105,37 @@ Events
 context.SavingChanges += (sender, args) => { args.Context.(...);/* args.Context is IContext */ };
 ```
 
-* ModelCreating - executed when model is being created. Conventions should be set up here.
-```c#
-context.ModelCreating += (sender, args) => { args.ModelBuilder.(...);/* args.ModelBuilder is standard DbModelBuilder */};
-```
-
 ### IAutoContextFactory Events
 * Seeding - executed when database is seeded. Put your AddOrUpdate events here.
 ```c#
 factory.Seeding += (sender, args) => { args.Context.(...); /* args.Context is IContext */ };
 ```
+* ModelCreating - executed when model is being created. Conventions should be set up here.
+```c#
+context.ModelCreating += (sender, args) => { args.ModelBuilder.(...);/* args.ModelBuilder is standard DbModelBuilder */};
+```
+Version history
+==========
 
+## v 2.0
+* Complete rework of migrations and context generation. Now using Reflection instead of T4, allowing the runtime injection of ModelCreating object which wasn't working in version 1.
+* Added support for retrieving currently stored entities, base entities and assemblies for Context generation.
+
+## v 1.0.3
+* Context() now accepts a connectionString parameter
+
+## v 1.0.2
+* Context() now has its own lifecycle.
+
+## v 1.0.1
+* Added IncludedTypes() to Factory
+
+## v 1.0
+* Initial release.
 
 TODO
 ==========
 * Perhaps give separate events for async savechanges?
-* Add methods to retrieve currently added assemblies or base entities.
 * Add Identity support.
 
 Known bugs
