@@ -117,7 +117,7 @@ context.ModelCreating += (sender, args) => { args.ModelBuilder.(...);/* args.Mod
 Version history
 ==========
 
-## v 2.0
+#### v 2.0
 * Complete rework of migrations and context generation. Now using Reflection instead of T4, allowing the runtime injection of ModelCreating object which wasn't working in version 1.
 * Added support for retrieving currently stored entities, base entities and assemblies for Context generation.
 
