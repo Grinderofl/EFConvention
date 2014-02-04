@@ -121,16 +121,16 @@ Version history
 * Complete rework of migrations and context generation. Now using Reflection instead of T4, allowing the runtime injection of ModelCreating object which wasn't working in version 1.
 * Added support for retrieving currently stored entities, base entities and assemblies for Context generation.
 
-## v 1.0.3
+#### v 1.0.3
 * Context() now accepts a connectionString parameter
 
-## v 1.0.2
+#### v 1.0.2
 * Context() now has its own lifecycle.
 
-## v 1.0.1
+#### v 1.0.1
 * Added IncludedTypes() to Factory
 
-## v 1.0
+#### v 1.0
 * Initial release.
 
 TODO
