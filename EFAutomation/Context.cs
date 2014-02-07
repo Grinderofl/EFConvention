@@ -6,6 +6,7 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EFAutomation
@@ -75,6 +76,29 @@ namespace EFAutomation
             if (SavingChanges != null)
                 SavingChanges(this, new SavingChangesEventArgs() {Context = this});
             return base.SaveChanges();
+        }
+
+        /// <summary>
+        /// Asynchronously saves all changes made in this context to the underlying database.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous save operation. The task result contains the number of objects written to the underlying database.</returns>
+        public override Task<int> SaveChangesAsync()
+        {
+            if (SavingChanges != null)
+                SavingChanges(this, new SavingChangesEventArgs() { Context = this });
+            return base.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Asynchronously saves all changes made in this context to the underlying database.
+        /// </summary>
+        /// <param name="cancellationToken">A CancellationToken to observe while waiting for the task to complete.</param>
+        /// <returns>A task that represents the asynchronous save operation. The task result contains the number of objects written to the underlying database.</returns>
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            if (SavingChanges != null)
+                SavingChanges(this, new SavingChangesEventArgs() { Context = this });
+            return base.SaveChangesAsync(cancellationToken);
         }
 
         /// <summary>
