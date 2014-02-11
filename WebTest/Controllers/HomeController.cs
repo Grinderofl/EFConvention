@@ -38,11 +38,11 @@ namespace WebTest.Controllers
             _autoContextFactory.Configuration.MigrationsDirectory =
                 @"C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\WebTest\Migrations\";
             //_autoContextFactory.Configuration.MigrationsAssemblyAsFile = true;
-            _autoContextFactory.Configuration.MigrationsAssemblyFileLocation =
-                @"C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\WebTest\Migrations\Migrations.dll";
+            /*_autoContextFactory.Configuration.MigrationsAssemblyFileLocation =
+                @"C:\Users\Nero\Documents\visual studio 2013\Projects\EFAutomation\WebTest\Migrations\Migrations.dll";*/
             _autoContextFactory.ModelCreating += (sender, args) =>
             {
-                args.ModelBuilder.Entity<Item>().ToTable("MyItemses");
+                //args.ModelBuilder.Entity<Item>().ToTable("MyItemses");
             };
             _autoContextFactory.Seeding += (sender, context) =>
             {

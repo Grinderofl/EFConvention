@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Data.Entity.Migrations.Design;
 using System.Data.Entity.Migrations.Infrastructure;
+using System.Data.Entity.ModelConfiguration;
 using System.Data.Odbc;
 using System.IO;
 using System.Linq;
@@ -220,7 +221,6 @@ namespace EFAutomation
             var configuration = CreateConfiguration();
             // Migrate
             var migrator = new DbMigrator(configuration);
-            var pending = migrator.GetPendingMigrations();
             migrator.Update();
             _migrated = true;
         }
@@ -298,12 +298,42 @@ namespace EFAutomation
         }
 
         /// <summary>
-        /// When model is created. Only used for Context.
+        /// When model is created. Only used for Context and auto assigning builder mappings.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
         internal void OnModelCreating(object sender, ModelBuilderEventArgs args)
         {
+            var builder = args.ModelBuilder;
+            var entityMethod = typeof(DbModelBuilder).GetMethod("Entity");
+
+            foreach (var assembly in _assemblies)
+            {
+                foreach (var x in assembly.GetTypes())
+                {
+                    foreach (var z in x.GetInterfaces())
+                    {
+                        var y = x.BaseType;
+                        if ((y != null && y.IsGenericType &&
+                             typeof (IModelBuilderOverride<>).IsAssignableFrom(y.GetGenericTypeDefinition())) ||
+                            (z.IsGenericType && typeof (IModelBuilderOverride<>).IsAssignableFrom(z.GetGenericTypeDefinition())))
+                        {
+                            var method = x.GetMethod("Configure");
+
+                            var target = z.GetGenericArguments().Single();
+                            var invoked = entityMethod.MakeGenericMethod(target).Invoke(builder, new object[] {});
+
+                            var x1 = x;
+                            ModelCreating += (o, eventArgs) =>
+                            {
+                                var obj = Activator.CreateInstance(x1);
+                                method.Invoke(obj, new[] {invoked});
+                            };
+                        }
+                    }
+                }
+            }
+
             if (ModelCreating != null)
                 ModelCreating(sender, args);
         }

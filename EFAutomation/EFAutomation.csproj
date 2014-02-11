@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoContextFactoryConfiguration.cs" />
+    <Compile Include="IModelBuilderOverride.cs" />
     <Compile Include="MigrationConfiguration.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Exceptions\AssemblyCompilationErrorsException.cs" />

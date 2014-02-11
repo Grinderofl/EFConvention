@@ -135,7 +135,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BaseEntity.cs" />
+    <Compile Include="Models\EntityTwo.cs" />
+    <Compile Include="Models\EntityTwoOverride.cs" />
     <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\ItemOverride.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
