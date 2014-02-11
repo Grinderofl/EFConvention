@@ -16,14 +16,14 @@
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
         <header class="inner">
-          <a id="forkme_banner" href="https://github.com/Grinderofl/EFConventions">View on GitHub</a>
+          <a id="forkme_banner" href="https://github.com/Grinderofl/EFConvention">View on GitHub</a>
 
           <h1 id="project_title">Entity Framework Conventions</h1>
           <h2 id="project_tagline"></h2>
 
             <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/Grinderofl/EFConventions/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/Grinderofl/EFConventions/tarball/master">Download this project as a tar.gz file</a>
+              <a class="zip_download_link" href="https://github.com/Grinderofl/EFConvention/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/Grinderofl/EFConvention/tarball/master">Download this project as a tar.gz file</a>
             </section>
         </header>
     </div>
@@ -32,11 +32,11 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h1>
-<a name="efautomation" class="anchor" href="#efautomation"><span class="octicon octicon-link"></span></a>EFAutomation</h1>
+<a name="efconvention" class="anchor" href="#efconvention"><span class="octicon octicon-link"></span></a>EFConvention</h1>
 
-<p>EFAutomation is a convention based extension library for Entity Framework to automate several tasks currently cumbersome to do. It allows developers to create an Entity Framework based Context without having to specify each entity by putting it as DbSet&lt;&gt; as property. </p>
+<p>EFConvention is a convention based extension library for Entity Framework to automate several tasks currently cumbersome to do. It allows developers to create an Entity Framework based Context without having to specify each entity by putting it as DbSet&lt;&gt; as property. </p>
 
-<p>NuGet: <a href="http://www.nuget.org/packages/EFAutomation/">http://www.nuget.org/packages/EFAutomation/</a></p>
+<p>NuGet: <a href="http://www.nuget.org/packages/EFConvention/">http://www.nuget.org/packages/EFConvention/</a></p>
 
 <h1>
 <a name="basic-usage" class="anchor" href="#basic-usage"><span class="octicon octicon-link"></span></a>Basic usage</h1>
@@ -68,7 +68,7 @@
 <h3>
 <a name="lifecycle" class="anchor" href="#lifecycle"><span class="octicon octicon-link"></span></a>Lifecycle</h3>
 
-<p>Factory lifecyle should be same as your applicatin lifecycle. Every Context() call checks if database has already been migrated, provided AutoMigrateGeneratedMigrationsEnabled is set to true. If you manage migrations manually, lifecycle can be anything and you will be responsible for performance and errors. IContext lifecycle can be anything you would normally set a standard DbContext to.</p>
+<p>Factory lifecyle should be same as your application lifecycle. Every Context() call checks if database has already been migrated, provided AutoMigrateGeneratedMigrationsEnabled is set to true. If you manage migrations manually, lifecycle can be anything and you will be responsible for performance and errors. IContext lifecycle can be anything you would normally set a standard DbContext to.</p>
 
 <h3>
 <a name="context" class="anchor" href="#context"><span class="octicon octicon-link"></span></a>Context</h3>
@@ -100,7 +100,7 @@
 <li><p><strong>Configuration</strong> - IAutoContextFactoryConfiguration for configuring the factory</p></li>
 <li><p><strong>AddEntitiesBasedOn&lt;T&gt;()</strong> - This method allows convention based adding of entities to the context. All entities that are not abstract and are based on this class (or these classes, if you add more than one) are automatically added. Assemblies to be searched from also needs to be added.</p></li>
 <li><p><strong>AddEntity&lt;T&gt;()</strong> - Adds a single entity to context.</p></li>
-<li><p><strong>AddAssemblyContaining&lt;T&gt;()</strong> - Adds an assembly which should be searched for convention-added classes, which contains specified class.</p></li>
+<li><p><strong>AddAssemblyContaining&lt;T&gt;()</strong> - Adds an assembly which should be searched for convention added classes, which contains specified class.</p></li>
 </ul><div class="highlight highlight-c#"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">EntityBase</span>
 <span class="p">{</span>
   <span class="k">public</span> <span class="kt">int</span> <span class="n">Id</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span>
@@ -126,6 +126,36 @@
 <li>
 <strong>EntitiesToBaseOn()</strong> - Returns a list of base types to be used for searching.</li>
 </ul><p><strong>NB! Order of operations is important. Any other method should be called before Context(), MigratToLatest() or GenerateMigrations() are called for the first time on Factory</strong> </p>
+
+<h1>
+<a name="model-builder-conventions" class="anchor" href="#model-builder-conventions"><span class="octicon octicon-link"></span></a>Model Builder Conventions</h1>
+
+<p>Starting from version 2.1, EFConvention supports NHibernate-style convention based model building. These classes are IModelBuilderOverride type and take an entity that you wish to map as a generic argument. They will be automatically picked up as long as they're in one of the assemblies you added using <code>AddAssemblyContaining&lt;T&gt;()</code> or <code>AddAssembly(Assembly assembly)</code></p>
+
+<div class="highlight highlight-c#"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">ItemOverride</span> <span class="p">:</span> <span class="n">IModelBuilderOverride</span><span class="p">&lt;</span><span class="n">Item</span><span class="p">&gt;</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">void</span> <span class="nf">Configure</span><span class="p">(</span><span class="n">EntityTypeConfiguration</span><span class="p">&lt;</span><span class="n">Item</span><span class="p">&gt;</span> <span class="n">entity</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">entity</span><span class="p">.</span><span class="n">ToTable</span><span class="p">(</span><span class="s">"MyTable"</span><span class="p">);</span>
+        <span class="c1">// Insert your mapping code here</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h1>
+<a name="listener-conventions" class="anchor" href="#listener-conventions"><span class="octicon octicon-link"></span></a>Listener Conventions</h1>
+
+<p>Starting from version 2.1, EFConvention also supports NHibernate style event listeners that can be hooked to different types of events in both pre and post save. Those, too, will be picked up automatically as long as they are located within the assmblies to be searched for items. Full list can be found under <code>EFConvention.Interceptors</code> namespace. The <code>IPreEventListener</code> and <code>IPostEventListener</code> react to any type of entity state.</p>
+
+<div class="highlight highlight-c#"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">MyEventListener</span> <span class="p">:</span> <span class="n">IPreInsertEventListener</span>
+<span class="p">{</span>
+    <span class="k">void</span> <span class="nf">OnInsert</span><span class="p">(</span><span class="n">DbEntityEntry</span> <span class="n">entityEntry</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">entityEntry</span><span class="p">.</span><span class="n">Entity</span> <span class="k">is</span> <span class="n">BaseEntity</span><span class="p">)</span>
+            <span class="p">((</span><span class="n">BaseEntity</span><span class="p">)</span><span class="n">entityEntry</span><span class="p">.</span><span class="n">Entity</span><span class="p">).</span><span class="n">Created</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
 
 <h1>
 <a name="events" class="anchor" href="#events"><span class="octicon octicon-link"></span></a>Events</h1>
@@ -157,6 +187,13 @@
 <a name="version-history" class="anchor" href="#version-history"><span class="octicon octicon-link"></span></a>Version history</h1>
 
 <h4>
+<a name="v-21" class="anchor" href="#v-21"><span class="octicon octicon-link"></span></a>v 2.1</h4>
+
+<ul>
+<li>Renamed project to EFConventions and then to EFConvention because EFConventions was already taken on NuGet...</li>
+<li>Added real convention based model builder overrides.</li>
+<li>Added convention based event listeners for post- and pre save states.</li>
+</ul><h4>
 <a name="v-20" class="anchor" href="#v-20"><span class="octicon octicon-link"></span></a>v 2.0</h4>
 
 <ul>
