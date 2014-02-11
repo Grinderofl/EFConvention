@@ -1,9 +1,9 @@
-EFAutomation
+EFConvention
 ============
 
-EFAutomation is a convention based extension library for Entity Framework to automate several tasks currently cumbersome to do. It allows developers to create an Entity Framework based Context without having to specify each entity by putting it as DbSet<> as property. 
+EFConvention is a convention based extension library for Entity Framework to automate several tasks currently cumbersome to do. It allows developers to create an Entity Framework based Context without having to specify each entity by putting it as DbSet<> as property. 
 
-NuGet: http://www.nuget.org/packages/EFAutomation/
+NuGet: http://www.nuget.org/packages/EFConvention/
 
 Basic usage
 ============
@@ -32,7 +32,7 @@ Detailed info
 =============
 
 ### Lifecycle
-Factory lifecyle should be same as your applicatin lifecycle. Every Context() call checks if database has already been migrated, provided AutoMigrateGeneratedMigrationsEnabled is set to true. If you manage migrations manually, lifecycle can be anything and you will be responsible for performance and errors. IContext lifecycle can be anything you would normally set a standard DbContext to.
+Factory lifecyle should be same as your application lifecycle. Every Context() call checks if database has already been migrated, provided AutoMigrateGeneratedMigrationsEnabled is set to true. If you manage migrations manually, lifecycle can be anything and you will be responsible for performance and errors. IContext lifecycle can be anything you would normally set a standard DbContext to.
 
 ### Context
 EFAutomation declares an IContext interface which declares effectively same functions as original DbContext and adds some of its own, such as events. You are free to cast it to standard DbContext if you wish.
@@ -66,7 +66,8 @@ Context() call from Factory also accepts a string parameter for connection strin
 
 * **AddEntity&lt;T&gt;()** - Adds a single entity to context.
 
-* **AddAssemblyContaining&lt;T&gt;()** - Adds an assembly which should be searched for convention-added classes, which contains specified class.
+* **AddAssemblyContaining&lt;T&gt;()** - Adds an assembly which should be searched for convention added classes, which contains specified class.
+
 ```c#
 public class EntityBase
 {
@@ -95,6 +96,36 @@ factory.AddEntitiesBasedOn<EntityBase>().AddAssemblyContaining<EntityOne>();
 
 **NB! Order of operations is important. Any other method should be called before Context(), MigratToLatest() or GenerateMigrations() are called for the first time on Factory** 
 
+Model Builder Conventions
+==========
+Starting from version 2.1, EFConvention supports NHibernate-style convention based model building. These classes are IModelBuilderOverride type and take an entity that you wish to map as a generic argument. They will be automatically picked up as long as they're in one of the assemblies you added using ```AddAssemblyContaining<T>()``` or ```AddAssembly(Assembly assembly)```
+
+```c#
+public class ItemOverride : IModelBuilderOverride<Item>
+{
+    public void Configure(EntityTypeConfiguration<Item> entity)
+    {
+        entity.ToTable("MyTable");
+        // Insert your mapping code here
+    }
+}
+```
+
+Listener Conventions
+==========
+Starting from version 2.1, EFConvention also supports NHibernate style event listeners that can be hooked to different types of events in both pre and post save. Those, too, will be picked up automatically as long as they are located within the assmblies to be searched for items. Full list can be found under ```EFConvention.Interceptors``` namespace. The ```IPreEventListener``` and ```IPostEventListener``` react to any type of entity state.
+
+```c#
+public class MyEventListener : IPreInsertEventListener
+{
+    void OnInsert(DbEntityEntry entityEntry)
+    {
+        if(entityEntry.Entity is BaseEntity)
+            ((BaseEntity)entityEntry.Entity).Created = DateTime.Now;
+    }
+}
+```
+
 Events
 ==========
 **All events fire before their original base events**
@@ -116,6 +147,10 @@ context.ModelCreating += (sender, args) => { args.ModelBuilder.(...);/* args.Mod
 ```
 Version history
 ==========
+#### v 2.1
+* Renamed project to EFConventions and then to EFConvention because EFConventions was already taken on NuGet...
+* Added real convention based model builder overrides.
+* Added convention based event listeners for post- and pre save states.
 
 #### v 2.0
 * Complete rework of migrations and context generation. Now using Reflection instead of T4, allowing the runtime injection of ModelCreating object which wasn't working in version 1.
