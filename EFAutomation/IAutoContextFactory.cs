@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace EFConventions
+namespace EFConvention
 {
     /// <summary>
     /// Auto Context Factory interface

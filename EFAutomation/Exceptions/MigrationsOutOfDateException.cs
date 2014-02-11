@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EFConventions.Exceptions
+namespace EFConvention.Exceptions
 {
     public class MigrationsOutOfDateException : Exception
     {

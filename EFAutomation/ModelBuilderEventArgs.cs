@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 
-namespace EFConventions
+namespace EFConvention
 {
     /// <summary>
     /// 

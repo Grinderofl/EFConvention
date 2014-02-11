@@ -1,4 +1,4 @@
-﻿namespace EFConventions
+﻿namespace EFConvention
 {
     /// <summary>
     /// Auto Context Factory Configuration interface

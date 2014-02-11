@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity.ModelConfiguration;
 
-namespace EFConventions
+namespace EFConvention
 {
     /// <summary>
     /// 

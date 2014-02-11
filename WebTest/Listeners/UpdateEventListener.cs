@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
-using EFConventions.Interceptors;
+using EFConvention.Interceptors;
 using WebTest.Models;
 
 namespace WebTest.Listeners

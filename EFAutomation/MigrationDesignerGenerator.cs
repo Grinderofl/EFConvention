@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace EFConventions
+namespace EFConvention
 {
     using System.Linq;
     using System.Text;

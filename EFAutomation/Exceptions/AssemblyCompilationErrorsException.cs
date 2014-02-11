@@ -1,7 +1,7 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 
-namespace EFConventions.Exceptions
+namespace EFConvention.Exceptions
 {
     public class AssemblyCompilationErrorsException : Exception
     {

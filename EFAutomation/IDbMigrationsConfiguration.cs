@@ -6,7 +6,7 @@ using System.Data.Entity.Migrations.History;
 using System.Data.Entity.Migrations.Sql;
 using System.Reflection;
 
-namespace EFConventions
+namespace EFConvention
 {
     /// <summary>
     /// DbMigrations Configuration interface

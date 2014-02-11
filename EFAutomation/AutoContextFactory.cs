@@ -2,17 +2,16 @@
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure.Interception;
 using System.Data.Entity.Migrations;
 using System.Data.Entity.Migrations.Design;
 using System.Data.Entity.Migrations.Infrastructure;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using EFConventions.Exceptions;
+using EFConvention.Exceptions;
 using Microsoft.CSharp;
 
-namespace EFConventions
+namespace EFConvention
 {
     /// <summary>
     /// 

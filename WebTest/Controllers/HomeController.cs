@@ -6,7 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.Mvc;
-using EFConventions;
+using EFConvention;
 using WebTest.Models;
 
 namespace WebTest.Controllers

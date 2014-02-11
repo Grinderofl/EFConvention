@@ -60,9 +60,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EFAutomation\EFConventions.csproj">
+    <ProjectReference Include="..\EFAutomation\EFConvention.csproj">
       <Project>{01c44ab3-65a5-4bb4-882e-59254833b913}</Project>
-      <Name>EFConventions</Name>
+      <Name>EFConvention</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

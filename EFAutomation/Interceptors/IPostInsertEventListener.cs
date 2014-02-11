@@ -1,7 +1,7 @@
 
 ﻿using System.Data.Entity.Infrastructure;
 
-namespace EFConventions.Interceptors
+namespace EFConvention.Interceptors
 {
     /// <summary>
     /// 

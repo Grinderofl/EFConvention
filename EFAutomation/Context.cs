@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -8,9 +7,9 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using EFConventions.Interceptors;
+using EFConvention.Interceptors;
 
-namespace EFConventions
+namespace EFConvention
 {
     /// <summary>
     /// Context implementation

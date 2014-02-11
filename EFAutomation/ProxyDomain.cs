@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace EFConventions
+namespace EFConvention
 {
     // Possible future class to use appdomain for loading the generators
     internal class ProxyDomain : MarshalByRefObject

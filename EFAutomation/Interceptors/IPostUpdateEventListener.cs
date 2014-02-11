@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity.Infrastructure;
 
-namespace EFConventions.Interceptors
+namespace EFConvention.Interceptors
 {
     /// <summary>
     /// Listener for update events

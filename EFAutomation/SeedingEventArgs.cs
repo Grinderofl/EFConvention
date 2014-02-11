@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EFConventions
+namespace EFConvention
 {
     public class SeedingEventArgs : EventArgs
     {

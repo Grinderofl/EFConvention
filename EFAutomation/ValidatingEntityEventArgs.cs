@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 
-namespace EFConventions
+namespace EFConvention
 {
     public class ValidatingEntityEventArgs : EventArgs
     {
