@@ -2,6 +2,7 @@
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure.Interception;
 using System.Data.Entity.Migrations;
 using System.Data.Entity.Migrations.Design;
 using System.Data.Entity.Migrations.Infrastructure;

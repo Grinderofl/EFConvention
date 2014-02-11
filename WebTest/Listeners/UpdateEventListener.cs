@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
+<<<<<<< HEAD
 using EFConventions.Interceptors;
+=======
+using EFAutomation.Interceptors;
+>>>>>>> cf4659b760e07050a0426662dd0cba0acde539aa
 using WebTest.Models;
 
 namespace WebTest.Listeners

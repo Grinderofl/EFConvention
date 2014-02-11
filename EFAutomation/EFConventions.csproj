@@ -69,6 +69,12 @@
     <Compile Include="Interceptors\IPreInsertEventListener.cs" />
     <Compile Include="Interceptors\IPreUnchangedEventListener.cs" />
     <Compile Include="Interceptors\IPreUpdateEventListener.cs" />
+    <Compile Include="Interceptors\IDeleteEventListener.cs" />
+    <Compile Include="Interceptors\IDetachedEventListener.cs" />
+    <Compile Include="Interceptors\IEventListener.cs" />
+    <Compile Include="Interceptors\IInsertEventListener.cs" />
+    <Compile Include="Interceptors\IUnchangedEventListener.cs" />
+    <Compile Include="Interceptors\IUpdateEventListener.cs" />
     <Compile Include="MigrationConfiguration.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Exceptions\AssemblyCompilationErrorsException.cs" />
