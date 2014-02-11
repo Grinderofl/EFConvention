@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EFAutomation
+namespace EFConventions
 {
     // Possible future class to use appdomain for loading the generators
     internal class ProxyDomain : MarshalByRefObject

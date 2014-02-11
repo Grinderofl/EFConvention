@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Migrations;
 using System.Data.Entity.Migrations.Design;
 using System.Data.Entity.Migrations.History;
 using System.Data.Entity.Migrations.Sql;
-using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EFAutomation
+namespace EFConventions
 {
     /// <summary>
     /// DbMigrations Configuration interface

@@ -7,8 +7,8 @@
     <ProjectGuid>{01C44AB3-65A5-4BB4-882E-59254833B913}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EFAutomation</RootNamespace>
-    <AssemblyName>EFAutomation</AssemblyName>
+    <RootNamespace>EFConventions</RootNamespace>
+    <AssemblyName>EFConventions</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -30,7 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\EFAutomation.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\EFConventions.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -57,6 +57,18 @@
   <ItemGroup>
     <Compile Include="AutoContextFactoryConfiguration.cs" />
     <Compile Include="IModelBuilderOverride.cs" />
+    <Compile Include="Interceptors\IPostDeleteEventListener.cs" />
+    <Compile Include="Interceptors\IPostDetachedEventListener.cs" />
+    <Compile Include="Interceptors\IPostEventListener.cs" />
+    <Compile Include="Interceptors\IPostInsertEventListener.cs" />
+    <Compile Include="Interceptors\IPostUnchangedEventListener.cs" />
+    <Compile Include="Interceptors\IPostUpdateEventListener.cs" />
+    <Compile Include="Interceptors\IPreDeleteEventListener.cs" />
+    <Compile Include="Interceptors\IPreDetachedEventListener.cs" />
+    <Compile Include="Interceptors\IPreEventListener.cs" />
+    <Compile Include="Interceptors\IPreInsertEventListener.cs" />
+    <Compile Include="Interceptors\IPreUnchangedEventListener.cs" />
+    <Compile Include="Interceptors\IPreUpdateEventListener.cs" />
     <Compile Include="MigrationConfiguration.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Exceptions\AssemblyCompilationErrorsException.cs" />
@@ -73,6 +85,7 @@
     <Compile Include="ModelBuilderEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProxyDomain.cs" />
+    <Compile Include="Repository.cs" />
     <Compile Include="SavingChangesEventArgs.cs" />
     <Compile Include="SeedingEventArgs.cs" />
     <Compile Include="AutoContextFactory.cs" />

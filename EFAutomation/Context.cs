@@ -5,11 +5,11 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using EFConventions.Interceptors;
 
-namespace EFAutomation
+namespace EFConventions
 {
     /// <summary>
     /// Context implementation
@@ -19,6 +19,22 @@ namespace EFAutomation
         private readonly List<Type> _baseTypes;
         private readonly List<Type> _entities;
         private readonly List<Assembly> _assemblies;
+
+        private delegate void ListenerEventHandler(DbEntityEntry entry);
+
+        private readonly ListenerEventHandler _preInsert;
+        private readonly ListenerEventHandler _preDelete;
+        private readonly ListenerEventHandler _preDetach;
+        private readonly ListenerEventHandler _preModified;
+        private readonly ListenerEventHandler _preUnchanged;
+        private readonly ListenerEventHandler _preAny;
+
+        private readonly ListenerEventHandler _postInsert;
+        private readonly ListenerEventHandler _postDelete;
+        private readonly ListenerEventHandler _postDetach;
+        private readonly ListenerEventHandler _postModified;
+        private readonly ListenerEventHandler _postUnchanged;
+        private readonly ListenerEventHandler _postAny;
 
         /// <summary>
         /// Constructor
@@ -32,6 +48,122 @@ namespace EFAutomation
             _assemblies = assemblies;
             _entities = entities;
             _baseTypes = baseTypes;
+            
+
+            foreach (var assembly in _assemblies)
+            {
+                foreach (var type in assembly.GetTypes().Where(x => !x.IsInterface))
+                {
+                    if (InterfaceContains(type, typeof(IPreInsertEventListener)))
+                    {
+                        var insert = (IPreInsertEventListener) Activator.CreateInstance(type);
+                        _preInsert += insert.OnInsert;
+                    }
+                    if (InterfaceContains(type, typeof (IPreDeleteEventListener)))
+                    {
+                        var update = (IPreDeleteEventListener) Activator.CreateInstance(type);
+                        _preDelete += update.OnDelete;
+                    }
+                    if (InterfaceContains(type, typeof(IPreDetachedEventListener)))
+                    {
+                        var update = (IPreDetachedEventListener)Activator.CreateInstance(type);
+                        _preDetach += update.OnDetach;
+                    }
+                    if (InterfaceContains(type, typeof(IPreUpdateEventListener)))
+                    {
+                        var update = (IPreDetachedEventListener)Activator.CreateInstance(type);
+                        _preModified += update.OnDetach;
+                    }
+                    if (InterfaceContains(type, typeof(IPreUnchangedEventListener)))
+                    {
+                        var update = (IPreUnchangedEventListener)Activator.CreateInstance(type);
+                        _preUnchanged += update.OnUnchanged;
+                    }
+                    if (InterfaceContains(type, typeof (IPreEventListener)))
+                    {
+                        var any = (IPreEventListener) Activator.CreateInstance(type);
+                        _preAny += any.OnEvent;
+                    }
+
+
+
+                    if (InterfaceContains(type, typeof(IPostInsertEventListener)))
+                    {
+                        var insert = (IPostInsertEventListener)Activator.CreateInstance(type);
+                        _postInsert += insert.OnInsert;
+                    }
+                    if (InterfaceContains(type, typeof(IPostDeleteEventListener)))
+                    {
+                        var update = (IPostDeleteEventListener)Activator.CreateInstance(type);
+                        _postDelete += update.OnDelete;
+                    }
+                    if (InterfaceContains(type, typeof(IPostDetachedEventListener)))
+                    {
+                        var update = (IPostDetachedEventListener)Activator.CreateInstance(type);
+                        _postDetach += update.OnDetach;
+                    }
+                    if (InterfaceContains(type, typeof(IPostUpdateEventListener)))
+                    {
+                        var update = (IPostDetachedEventListener)Activator.CreateInstance(type);
+                        _postModified += update.OnDetach;
+                    }
+                    if (InterfaceContains(type, typeof(IPostUnchangedEventListener)))
+                    {
+                        var update = (IPostUnchangedEventListener)Activator.CreateInstance(type);
+                        _postUnchanged += update.OnUnchanged;
+                    }
+                    if (InterfaceContains(type, typeof(IPostEventListener)))
+                    {
+                        var any = (IPostEventListener)Activator.CreateInstance(type);
+                        _postAny += any.OnEvent;
+                    }
+                    
+                }
+            }
+
+            SavingChanges += (sender, args) =>
+            {
+                foreach (var entry in ChangeTracker.Entries())
+                {
+                    if (entry.State == EntityState.Added && _preInsert != null)
+                        _preInsert(entry);
+                    if (entry.State == EntityState.Deleted && _preDelete != null)
+                        _preDelete(entry);
+                    if (entry.State == EntityState.Detached && _preDetach != null)
+                        _preDetach(entry);
+                    if (entry.State == EntityState.Modified &&  _preModified != null)
+                        _preModified(entry);
+                    if (entry.State == EntityState.Unchanged && _preUnchanged != null)
+                        _preUnchanged(entry);
+                    if(_preAny != null)
+                        _preAny(entry);
+                }
+            };
+
+            PostSavingChanges += (sender, args) =>
+            {
+                foreach (var entry in ChangeTracker.Entries())
+                {
+                    if (entry.State == EntityState.Added && _postInsert != null)
+                        _postInsert(entry);
+                    if (entry.State == EntityState.Deleted && _postDelete != null)
+                        _postDelete(entry);
+                    if (entry.State == EntityState.Detached && _postDetach != null)
+                        _postDetach(entry);
+                    if (entry.State == EntityState.Modified && _postModified != null)
+                        _postModified(entry);
+                    if (entry.State == EntityState.Unchanged && _postUnchanged != null)
+                        _postUnchanged(entry);
+                    if(_postAny != null)
+                        _postAny(entry);
+                }
+            };
+
+        }
+
+        private bool InterfaceContains(Type type, Type contains)
+        {
+            return type.GetInterfaces().Contains(contains);
         }
 
         /// <summary>
@@ -63,10 +195,15 @@ namespace EFAutomation
         public event SavingChangesEventHandler SavingChanges;
 
         /// <summary>
+        /// Event that occurs after changes are saved
+        /// </summary>
+        public event SavingChangesEventHandler PostSavingChanges;
+
+        /// <summary>
         /// Event that occurs when entity is being validated
         /// </summary>
         public event ValidatingEntityEventHandler ValidatingEntity;
-
+        
         /// <summary>
         /// Saves all changes made in this context to the underlying database.
         /// </summary>
@@ -75,7 +212,11 @@ namespace EFAutomation
         {
             if (SavingChanges != null)
                 SavingChanges(this, new SavingChangesEventArgs() {Context = this});
-            return base.SaveChanges();
+            
+            var result = base.SaveChanges();
+            if (PostSavingChanges != null)
+                PostSavingChanges(this, new SavingChangesEventArgs() {Context = this});
+            return result;
         }
 
         /// <summary>
@@ -86,7 +227,10 @@ namespace EFAutomation
         {
             if (SavingChanges != null)
                 SavingChanges(this, new SavingChangesEventArgs() { Context = this });
-            return base.SaveChangesAsync();
+            var result = base.SaveChangesAsync();
+            if (PostSavingChanges != null)
+                PostSavingChanges(this, new SavingChangesEventArgs() { Context = this });
+            return result;
         }
 
         /// <summary>
@@ -98,7 +242,10 @@ namespace EFAutomation
         {
             if (SavingChanges != null)
                 SavingChanges(this, new SavingChangesEventArgs() { Context = this });
-            return base.SaveChangesAsync(cancellationToken);
+            var result = base.SaveChangesAsync(cancellationToken);
+            if (PostSavingChanges != null)
+                PostSavingChanges(this, new SavingChangesEventArgs() { Context = this });
+            return result;
         }
 
         /// <summary>

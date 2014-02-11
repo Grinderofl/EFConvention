@@ -6,11 +6,11 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("EFAutomation")]
+[assembly: AssemblyTitle("EFConventions")]
 [assembly: AssemblyDescription("Automates Entity Framework Code First Migration and Context generation.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Nero Sule")]
-[assembly: AssemblyProduct("EFAutomation")]
+[assembly: AssemblyProduct("EFConventions")]
 [assembly: AssemblyCopyright("Copyright ©  2014 Nero Sule")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -33,6 +33,6 @@ using System.Resources;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.0.0")]
+[assembly: AssemblyVersion("2.1.0.0")]
+[assembly: AssemblyFileVersion("2.1.0.0")]
 [assembly: NeutralResourcesLanguageAttribute("en-GB")]

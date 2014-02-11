@@ -12,5 +12,6 @@ namespace WebTest.Models
         public bool Boolean { get; set; }
         public bool Boolean2 { get; set; }
         public string Data3 { get; set; }
+        public DateTime? Modified { get; set; }
     }
 }

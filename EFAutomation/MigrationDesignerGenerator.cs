@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace EFAutomation
+namespace EFConventions
 {
     using System.Linq;
     using System.Text;
@@ -18,7 +18,7 @@ namespace EFAutomation
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\MigrationDesignerGenerator.tt"
+    #line 1 "C:\Users\Nero\Documents\Visual Studio 2013\Projects\EFAutomation\EFAutomation\MigrationDesignerGenerator.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "12.0.0.0")]
     public partial class MigrationDesignerGenerator : MigrationDesignerGeneratorBase
     {
@@ -38,7 +38,7 @@ namespace EFAutomation
     [GeneratedCode(""EFAutomation.MigrationDesignerGenerator"", ""1.0"")]
     public sealed partial class ");
             
-            #line 17 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\MigrationDesignerGenerator.tt"
+            #line 17 "C:\Users\Nero\Documents\Visual Studio 2013\Projects\EFAutomation\EFAutomation\MigrationDesignerGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
             
             #line default
@@ -47,7 +47,7 @@ namespace EFAutomation
                     "s = new ResourceManager(typeof(First));\r\n        \r\n        string IMigrationMeta" +
                     "data.Id\r\n        {\r\n            get { return \"");
             
-            #line 23 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\MigrationDesignerGenerator.tt"
+            #line 23 "C:\Users\Nero\Documents\Visual Studio 2013\Projects\EFAutomation\EFAutomation\MigrationDesignerGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(MigrationId));
             
             #line default
@@ -56,7 +56,7 @@ namespace EFAutomation
                     "           get { return null; }\r\n        }\r\n        \r\n        string IMigrationM" +
                     "etadata.Target\r\n        {\r\n            get { return \"");
             
-            #line 33 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\MigrationDesignerGenerator.tt"
+            #line 33 "C:\Users\Nero\Documents\Visual Studio 2013\Projects\EFAutomation\EFAutomation\MigrationDesignerGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Target));
             
             #line default
@@ -65,7 +65,7 @@ namespace EFAutomation
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 1 "C:\Users\Nero\documents\visual studio 2013\Projects\EFAutomation\EFAutomation\MigrationDesignerGenerator.tt"
+        #line 1 "C:\Users\Nero\Documents\Visual Studio 2013\Projects\EFAutomation\EFAutomation\MigrationDesignerGenerator.tt"
 
 private string _TargetField;
 

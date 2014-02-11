@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EFAutomation
+namespace EFConventions
 {
     public class ValidatingEntityEventArgs : EventArgs
     {

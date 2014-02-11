@@ -1,7 +1,4 @@
-﻿using System.CodeDom.Compiler;
-using System.Security.Cryptography.X509Certificates;
-
-namespace EFAutomation
+﻿namespace EFConventions
 {
     /// <summary>
     /// Auto Context Factory Configuration interface

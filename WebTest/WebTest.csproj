@@ -134,6 +134,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Listeners\UpdateEventListener.cs" />
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\EntityTwo.cs" />
     <Compile Include="Models\EntityTwoOverride.cs" />
@@ -175,9 +176,9 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EFAutomation\EFAutomation.csproj">
+    <ProjectReference Include="..\EFAutomation\EFConventions.csproj">
       <Project>{01c44ab3-65a5-4bb4-882e-59254833b913}</Project>
-      <Name>EFAutomation</Name>
+      <Name>EFConventions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

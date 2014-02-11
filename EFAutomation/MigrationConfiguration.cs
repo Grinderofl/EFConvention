@@ -1,6 +1,6 @@
 using System.Data.Entity.Migrations;
 
-namespace EFAutomation
+namespace EFConventions
 {
     /// <summary>
     /// Migrations

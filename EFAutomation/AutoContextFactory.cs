@@ -5,17 +5,13 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Data.Entity.Migrations.Design;
 using System.Data.Entity.Migrations.Infrastructure;
-using System.Data.Entity.ModelConfiguration;
-using System.Data.Odbc;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using EFAutomation.Exceptions;
+using EFConventions.Exceptions;
 using Microsoft.CSharp;
 
-namespace EFAutomation
+namespace EFConventions
 {
     /// <summary>
     /// 
@@ -158,6 +154,7 @@ namespace EFAutomation
         /// <returns>Created IContext</returns>
         public IContext Context(string connectionString = "")
         {
+            
             if(!_migrated)
                 MigrateToLatest();
             return new Context(_assemblies, _entities, _entitiesToBaseOn,
@@ -314,22 +311,22 @@ namespace EFAutomation
                     foreach (var z in x.GetInterfaces())
                     {
                         var y = x.BaseType;
-                        if ((y != null && y.IsGenericType &&
-                             typeof (IModelBuilderOverride<>).IsAssignableFrom(y.GetGenericTypeDefinition())) ||
-                            (z.IsGenericType && typeof (IModelBuilderOverride<>).IsAssignableFrom(z.GetGenericTypeDefinition())))
+                        if ((y == null || !y.IsGenericType ||
+                             !typeof (IModelBuilderOverride<>).IsAssignableFrom(y.GetGenericTypeDefinition())) &&
+                            (!z.IsGenericType ||
+                             !typeof (IModelBuilderOverride<>).IsAssignableFrom(z.GetGenericTypeDefinition())))
+                            continue;
+                        var method = x.GetMethod("Configure");
+
+                        var target = z.GetGenericArguments().Single();
+                        var invoked = entityMethod.MakeGenericMethod(target).Invoke(builder, new object[] {});
+
+                        var x1 = x;
+                        ModelCreating += (o, eventArgs) =>
                         {
-                            var method = x.GetMethod("Configure");
-
-                            var target = z.GetGenericArguments().Single();
-                            var invoked = entityMethod.MakeGenericMethod(target).Invoke(builder, new object[] {});
-
-                            var x1 = x;
-                            ModelCreating += (o, eventArgs) =>
-                            {
-                                var obj = Activator.CreateInstance(x1);
-                                method.Invoke(obj, new[] {invoked});
-                            };
-                        }
+                            var obj = Activator.CreateInstance(x1);
+                            method.Invoke(obj, new[] {invoked});
+                        };
                     }
                 }
             }
