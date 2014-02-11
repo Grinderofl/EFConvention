@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -8,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using EFAutomation.Interceptors;
 
 namespace EFAutomation
 {
@@ -19,6 +21,22 @@ namespace EFAutomation
         private readonly List<Type> _baseTypes;
         private readonly List<Type> _entities;
         private readonly List<Assembly> _assemblies;
+
+        private delegate void ListenerEventHandler(DbEntityEntry entry);
+
+        private readonly ListenerEventHandler _preInsert;
+        private readonly ListenerEventHandler _preDelete;
+        private readonly ListenerEventHandler _preDetach;
+        private readonly ListenerEventHandler _preModified;
+        private readonly ListenerEventHandler _preUnchanged;
+        private readonly ListenerEventHandler _preAny;
+
+        private readonly ListenerEventHandler _postInsert;
+        private readonly ListenerEventHandler _postDelete;
+        private readonly ListenerEventHandler _postDetach;
+        private readonly ListenerEventHandler _postModified;
+        private readonly ListenerEventHandler _postUnchanged;
+        private readonly ListenerEventHandler _postAny;
 
         /// <summary>
         /// Constructor
@@ -32,6 +50,67 @@ namespace EFAutomation
             _assemblies = assemblies;
             _entities = entities;
             _baseTypes = baseTypes;
+            
+
+            foreach (var assembly in _assemblies)
+            {
+                foreach (var type in assembly.GetTypes().Where(x => !x.IsInterface))
+                {
+                    if (InterfaceContains(type, typeof(IPreInsertEventListener)))
+                    {
+                        var insert = (IPreInsertEventListener) Activator.CreateInstance(type);
+                        _preInsert += insert.OnInsert;
+                    }
+                    if (InterfaceContains(type, typeof (IPreDeleteEventListener)))
+                    {
+                        var update = (IPreDeleteEventListener) Activator.CreateInstance(type);
+                        _preModified += update.OnDelete;
+                    }
+                    
+                }
+            }
+
+            SavingChanges += (sender, args) =>
+            {
+                foreach (var entry in ChangeTracker.Entries())
+                {
+                    if (entry.State == EntityState.Added)
+                        _preInsert(entry);
+                    if (entry.State == EntityState.Deleted)
+                        _preDelete(entry);
+                    if (entry.State == EntityState.Detached)
+                        _preDetach(entry);
+                    if (entry.State == EntityState.Modified)
+                        _preModified(entry);
+                    if (entry.State == EntityState.Unchanged)
+                        _preUnchanged(entry);
+                    _preAny(entry);
+                }
+            };
+
+            PostSavingChanges += (sender, args) =>
+            {
+                foreach (var entry in ChangeTracker.Entries())
+                {
+                    if (entry.State == EntityState.Added)
+                        _postInsert(entry);
+                    if (entry.State == EntityState.Deleted)
+                        _postDelete(entry);
+                    if (entry.State == EntityState.Detached)
+                        _postDetach(entry);
+                    if (entry.State == EntityState.Modified)
+                        _postModified(entry);
+                    if (entry.State == EntityState.Unchanged)
+                        _postUnchanged(entry);
+                    _postAny(entry);
+                }
+            };
+
+        }
+
+        private bool InterfaceContains(Type type, Type contains)
+        {
+            return type.GetInterfaces().Contains(contains);
         }
 
         /// <summary>
@@ -63,10 +142,15 @@ namespace EFAutomation
         public event SavingChangesEventHandler SavingChanges;
 
         /// <summary>
+        /// Event that occurs after changes are saved
+        /// </summary>
+        public event SavingChangesEventHandler PostSavingChanges;
+
+        /// <summary>
         /// Event that occurs when entity is being validated
         /// </summary>
         public event ValidatingEntityEventHandler ValidatingEntity;
-
+        
         /// <summary>
         /// Saves all changes made in this context to the underlying database.
         /// </summary>
@@ -75,7 +159,11 @@ namespace EFAutomation
         {
             if (SavingChanges != null)
                 SavingChanges(this, new SavingChangesEventArgs() {Context = this});
-            return base.SaveChanges();
+            
+            var result = base.SaveChanges();
+            if (PostSavingChanges != null)
+                PostSavingChanges(this, new SavingChangesEventArgs() {Context = this});
+            return result;
         }
 
         /// <summary>
@@ -86,7 +174,10 @@ namespace EFAutomation
         {
             if (SavingChanges != null)
                 SavingChanges(this, new SavingChangesEventArgs() { Context = this });
-            return base.SaveChangesAsync();
+            var result = base.SaveChangesAsync();
+            if (PostSavingChanges != null)
+                PostSavingChanges(this, new SavingChangesEventArgs() { Context = this });
+            return result;
         }
 
         /// <summary>
@@ -98,7 +189,10 @@ namespace EFAutomation
         {
             if (SavingChanges != null)
                 SavingChanges(this, new SavingChangesEventArgs() { Context = this });
-            return base.SaveChangesAsync(cancellationToken);
+            var result = base.SaveChangesAsync(cancellationToken);
+            if (PostSavingChanges != null)
+                PostSavingChanges(this, new SavingChangesEventArgs() { Context = this });
+            return result;
         }
 
         /// <summary>

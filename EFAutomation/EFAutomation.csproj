@@ -57,6 +57,12 @@
   <ItemGroup>
     <Compile Include="AutoContextFactoryConfiguration.cs" />
     <Compile Include="IModelBuilderOverride.cs" />
+    <Compile Include="Interceptors\IDeleteEventListener.cs" />
+    <Compile Include="Interceptors\IDetachedEventListener.cs" />
+    <Compile Include="Interceptors\IEventListener.cs" />
+    <Compile Include="Interceptors\IInsertEventListener.cs" />
+    <Compile Include="Interceptors\IUnchangedEventListener.cs" />
+    <Compile Include="Interceptors\IUpdateEventListener.cs" />
     <Compile Include="MigrationConfiguration.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Exceptions\AssemblyCompilationErrorsException.cs" />
@@ -73,6 +79,7 @@
     <Compile Include="ModelBuilderEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProxyDomain.cs" />
+    <Compile Include="Repository.cs" />
     <Compile Include="SavingChangesEventArgs.cs" />
     <Compile Include="SeedingEventArgs.cs" />
     <Compile Include="AutoContextFactory.cs" />

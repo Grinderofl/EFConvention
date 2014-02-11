@@ -59,12 +59,23 @@ namespace WebTest.Controllers
                 var saveTime = DateTime.Now;
                 foreach (var entry in args.Context.ChangeTracker.Entries().Where(x => x.State == EntityState.Added))
                 {
-                    if (entry.Property("Created") != null)
-                        entry.Property("Created").CurrentValue = saveTime;
+                    var type = entry.Entity.GetType();
+
+                    if (type.GetProperty("Created") == null) continue;
+
+                    /*if (entry.Property("Created") != null)
+                        entry.Property("Created").CurrentValue = saveTime;*/
                 }
             };
             context.Set<Item>().Add(new Item());
             context.SaveChanges();
+            using (var tx = context.Database.BeginTransaction())
+            {
+                context.Set<EntityTwo>().Add(new EntityTwo());
+                context.SaveChanges();
+                tx.Commit();
+            }
+            
             return View();
         }
 
