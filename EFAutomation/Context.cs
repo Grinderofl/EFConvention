@@ -8,11 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-<<<<<<< HEAD
 using EFConventions.Interceptors;
-=======
-using EFAutomation.Interceptors;
->>>>>>> cf4659b760e07050a0426662dd0cba0acde539aa
 
 namespace EFConventions
 {
@@ -67,7 +63,6 @@ namespace EFConventions
                     if (InterfaceContains(type, typeof (IPreDeleteEventListener)))
                     {
                         var update = (IPreDeleteEventListener) Activator.CreateInstance(type);
-<<<<<<< HEAD
                         _preDelete += update.OnDelete;
                     }
                     if (InterfaceContains(type, typeof(IPreDetachedEventListener)))
@@ -122,9 +117,6 @@ namespace EFConventions
                     {
                         var any = (IPostEventListener)Activator.CreateInstance(type);
                         _postAny += any.OnEvent;
-=======
-                        _preModified += update.OnDelete;
->>>>>>> cf4659b760e07050a0426662dd0cba0acde539aa
                     }
                     
                 }
@@ -134,7 +126,6 @@ namespace EFConventions
             {
                 foreach (var entry in ChangeTracker.Entries())
                 {
-<<<<<<< HEAD
                     if (entry.State == EntityState.Added && _preInsert != null)
                         _preInsert(entry);
                     if (entry.State == EntityState.Deleted && _preDelete != null)
@@ -147,19 +138,6 @@ namespace EFConventions
                         _preUnchanged(entry);
                     if(_preAny != null)
                         _preAny(entry);
-=======
-                    if (entry.State == EntityState.Added)
-                        _preInsert(entry);
-                    if (entry.State == EntityState.Deleted)
-                        _preDelete(entry);
-                    if (entry.State == EntityState.Detached)
-                        _preDetach(entry);
-                    if (entry.State == EntityState.Modified)
-                        _preModified(entry);
-                    if (entry.State == EntityState.Unchanged)
-                        _preUnchanged(entry);
-                    _preAny(entry);
->>>>>>> cf4659b760e07050a0426662dd0cba0acde539aa
                 }
             };
 
@@ -167,7 +145,6 @@ namespace EFConventions
             {
                 foreach (var entry in ChangeTracker.Entries())
                 {
-<<<<<<< HEAD
                     if (entry.State == EntityState.Added && _postInsert != null)
                         _postInsert(entry);
                     if (entry.State == EntityState.Deleted && _postDelete != null)
@@ -180,19 +157,7 @@ namespace EFConventions
                         _postUnchanged(entry);
                     if(_postAny != null)
                         _postAny(entry);
-=======
-                    if (entry.State == EntityState.Added)
-                        _postInsert(entry);
-                    if (entry.State == EntityState.Deleted)
-                        _postDelete(entry);
-                    if (entry.State == EntityState.Detached)
-                        _postDetach(entry);
-                    if (entry.State == EntityState.Modified)
-                        _postModified(entry);
-                    if (entry.State == EntityState.Unchanged)
-                        _postUnchanged(entry);
-                    _postAny(entry);
->>>>>>> cf4659b760e07050a0426662dd0cba0acde539aa
+
                 }
             };
 
