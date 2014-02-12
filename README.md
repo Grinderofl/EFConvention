@@ -147,6 +147,9 @@ context.ModelCreating += (sender, args) => { args.ModelBuilder.(...);/* args.Mod
 ```
 Version history
 ==========
+#### v 2.2
+* IDbInterceptor-inherited entities are automatically picked up as a convention.
+
 #### v 2.1
 * Renamed project to EFConventions and then to EFConvention because EFConventions was already taken on NuGet...
 * Added real convention based model builder overrides.
