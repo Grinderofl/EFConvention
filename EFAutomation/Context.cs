@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Infrastructure.Interception;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Reflection;
@@ -50,74 +51,75 @@ namespace EFConvention
             _baseTypes = baseTypes;
             
 
-            foreach (var assembly in _assemblies)
+            foreach (var type in _assemblies.SelectMany(assembly => assembly.GetTypes().Where(x => !x.IsInterface && !x.IsAbstract)))
             {
-                foreach (var type in assembly.GetTypes().Where(x => !x.IsInterface))
+                if (InterfaceContains(type, typeof (IDbInterceptor)))
                 {
-                    if (InterfaceContains(type, typeof(IPreInsertEventListener)))
-                    {
-                        var insert = (IPreInsertEventListener) Activator.CreateInstance(type);
-                        _preInsert += insert.OnInsert;
-                    }
-                    if (InterfaceContains(type, typeof (IPreDeleteEventListener)))
-                    {
-                        var update = (IPreDeleteEventListener) Activator.CreateInstance(type);
-                        _preDelete += update.OnDelete;
-                    }
-                    if (InterfaceContains(type, typeof(IPreDetachedEventListener)))
-                    {
-                        var update = (IPreDetachedEventListener)Activator.CreateInstance(type);
-                        _preDetach += update.OnDetach;
-                    }
-                    if (InterfaceContains(type, typeof(IPreUpdateEventListener)))
-                    {
-                        var update = (IPreDetachedEventListener)Activator.CreateInstance(type);
-                        _preModified += update.OnDetach;
-                    }
-                    if (InterfaceContains(type, typeof(IPreUnchangedEventListener)))
-                    {
-                        var update = (IPreUnchangedEventListener)Activator.CreateInstance(type);
-                        _preUnchanged += update.OnUnchanged;
-                    }
-                    if (InterfaceContains(type, typeof (IPreEventListener)))
-                    {
-                        var any = (IPreEventListener) Activator.CreateInstance(type);
-                        _preAny += any.OnEvent;
-                    }
+                    var interceptor = (IDbInterceptor) Activator.CreateInstance(type);
+                    DbInterception.Add(interceptor);
+                }
+                if (InterfaceContains(type, typeof(IPreInsertEventListener)))
+                {
+                    var insert = (IPreInsertEventListener) Activator.CreateInstance(type);
+                    _preInsert += insert.OnInsert;
+                }
+                if (InterfaceContains(type, typeof (IPreDeleteEventListener)))
+                {
+                    var update = (IPreDeleteEventListener) Activator.CreateInstance(type);
+                    _preDelete += update.OnDelete;
+                }
+                if (InterfaceContains(type, typeof(IPreDetachedEventListener)))
+                {
+                    var update = (IPreDetachedEventListener)Activator.CreateInstance(type);
+                    _preDetach += update.OnDetach;
+                }
+                if (InterfaceContains(type, typeof(IPreUpdateEventListener)))
+                {
+                    var update = (IPreDetachedEventListener)Activator.CreateInstance(type);
+                    _preModified += update.OnDetach;
+                }
+                if (InterfaceContains(type, typeof(IPreUnchangedEventListener)))
+                {
+                    var update = (IPreUnchangedEventListener)Activator.CreateInstance(type);
+                    _preUnchanged += update.OnUnchanged;
+                }
+                if (InterfaceContains(type, typeof (IPreEventListener)))
+                {
+                    var any = (IPreEventListener) Activator.CreateInstance(type);
+                    _preAny += any.OnEvent;
+                }
 
 
 
-                    if (InterfaceContains(type, typeof(IPostInsertEventListener)))
-                    {
-                        var insert = (IPostInsertEventListener)Activator.CreateInstance(type);
-                        _postInsert += insert.OnInsert;
-                    }
-                    if (InterfaceContains(type, typeof(IPostDeleteEventListener)))
-                    {
-                        var update = (IPostDeleteEventListener)Activator.CreateInstance(type);
-                        _postDelete += update.OnDelete;
-                    }
-                    if (InterfaceContains(type, typeof(IPostDetachedEventListener)))
-                    {
-                        var update = (IPostDetachedEventListener)Activator.CreateInstance(type);
-                        _postDetach += update.OnDetach;
-                    }
-                    if (InterfaceContains(type, typeof(IPostUpdateEventListener)))
-                    {
-                        var update = (IPostDetachedEventListener)Activator.CreateInstance(type);
-                        _postModified += update.OnDetach;
-                    }
-                    if (InterfaceContains(type, typeof(IPostUnchangedEventListener)))
-                    {
-                        var update = (IPostUnchangedEventListener)Activator.CreateInstance(type);
-                        _postUnchanged += update.OnUnchanged;
-                    }
-                    if (InterfaceContains(type, typeof(IPostEventListener)))
-                    {
-                        var any = (IPostEventListener)Activator.CreateInstance(type);
-                        _postAny += any.OnEvent;
-                    }
-                    
+                if (InterfaceContains(type, typeof(IPostInsertEventListener)))
+                {
+                    var insert = (IPostInsertEventListener)Activator.CreateInstance(type);
+                    _postInsert += insert.OnInsert;
+                }
+                if (InterfaceContains(type, typeof(IPostDeleteEventListener)))
+                {
+                    var update = (IPostDeleteEventListener)Activator.CreateInstance(type);
+                    _postDelete += update.OnDelete;
+                }
+                if (InterfaceContains(type, typeof(IPostDetachedEventListener)))
+                {
+                    var update = (IPostDetachedEventListener)Activator.CreateInstance(type);
+                    _postDetach += update.OnDetach;
+                }
+                if (InterfaceContains(type, typeof(IPostUpdateEventListener)))
+                {
+                    var update = (IPostDetachedEventListener)Activator.CreateInstance(type);
+                    _postModified += update.OnDetach;
+                }
+                if (InterfaceContains(type, typeof(IPostUnchangedEventListener)))
+                {
+                    var update = (IPostUnchangedEventListener)Activator.CreateInstance(type);
+                    _postUnchanged += update.OnUnchanged;
+                }
+                if (InterfaceContains(type, typeof(IPostEventListener)))
+                {
+                    var any = (IPostEventListener)Activator.CreateInstance(type);
+                    _postAny += any.OnEvent;
                 }
             }
 
