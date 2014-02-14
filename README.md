@@ -206,6 +206,11 @@ context.ModelCreating += (sender, args) => { args.ModelBuilder.(...);/* args.Mod
 ```
 Version history
 ==========
+
+#### v 2.3
+* Added convention-based configuration.
+* Added support for convention-based seeding
+
 #### v 2.2
 * IDbInterceptor-inherited entities are automatically picked up as a convention.
 
