@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoContextFactoryConfiguration.cs" />
+    <Compile Include="IContextSeed.cs" />
     <Compile Include="IEFConventionConfigurator.cs" />
     <Compile Include="IModelBuilderOverride.cs" />
     <Compile Include="Interceptors\IPostDeleteEventListener.cs" />

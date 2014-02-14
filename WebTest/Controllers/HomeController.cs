@@ -32,8 +32,8 @@ namespace WebTest.Controllers
             };*/
             _autoContextFactory = new AutoContextFactory();
             _autoContextFactory.AddEntitiesBasedOn<BaseEntity>().AddAssemblyContaining<BaseEntity>();
-            _autoContextFactory.Seeding += (sender, context) => context.Context.Set<Item>()
-                .AddOrUpdate(a => a.Data, new Item() {Data = "Hello world", Created = DateTime.Now});
+            /*_autoContextFactory.Seeding += (sender, context) => context.Context.Set<Item>()
+                .AddOrUpdate(a => a.Data, new Item() {Data = "Hello world", Created = DateTime.Now});*/
         }
 
         public ActionResult Index()

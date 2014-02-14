@@ -180,7 +180,8 @@ namespace EFConvention
         {
             UpdateConfigurationFromConvention();
             var configuration = new MigrationConfiguration();
-            configuration.Seeding += (sender, context) => Seeding(sender, context);
+            //if(Seeding != null)
+            configuration.Seeding += OnSeeding;
             configuration.AutomaticMigrationDataLossAllowed = Configuration.AutomaticMigrationDataLossAllowed;
             configuration.AutomaticMigrationsEnabled = Configuration.AutoMigrateToLatestVersionEnabled;
             configuration.MigrationsNamespace = "EFMigrations";
@@ -354,6 +355,53 @@ namespace EFConvention
 
             if (ModelCreating != null)
                 ModelCreating(sender, args);
+        }
+
+        internal void OnSeeding(object sender, SeedingEventArgs context)
+        {
+            var entityMethod = typeof (Context).GetMethod("Set", new Type[] {});
+            
+            foreach (var assembly in _assemblies)
+            {
+                foreach (var x in assembly.GetTypes())
+                {
+                    if (x.GetInterfaces().Contains(typeof (IContextSeed)))
+                    {
+                        var method = x.GetMethod("Seed");
+                            var x1 = x;
+                        Seeding += (o, args) =>
+                        {
+                            var obj = Activator.CreateInstance(x1);
+                            method.Invoke(obj, new[] {args.Context});
+                        };
+                        continue;
+                    }
+                    foreach (var z in x.GetInterfaces())
+                    {
+                        var y = x.BaseType;
+                        if ((y == null || !y.IsGenericType ||
+                             !typeof (IEntitySeed<>).IsAssignableFrom(y.GetGenericTypeDefinition())) &&
+                            (!z.IsGenericType || !typeof (IEntitySeed<>).IsAssignableFrom(z.GetGenericTypeDefinition())))
+                            continue;
+                        var method = x.GetMethod("Seed");
+
+                        var target = z.GetGenericArguments().Single();
+                        var invoked = entityMethod.MakeGenericMethod(target)
+                            .Invoke(context.Context, new object[] {});
+
+                        var x1 = x;
+                        Seeding += (o, eventArgs) =>
+                        {
+                            var obj = Activator.CreateInstance(x1);
+                            method.Invoke(obj, new[] {invoked});
+                        };
+                    }
+                }
+            }
+
+            if (Seeding != null)
+                Seeding(sender, context);
+
         }
 
         public event SeedingEventHandler Seeding;
