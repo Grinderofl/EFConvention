@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace EFConvention
 {
     /// <summary>
-    /// 
+    /// Configures Entity Framework Convention Factory
     /// </summary>
     public interface IEFConventionConfigurator
     {
         /// <summary>
-        /// 
+        /// Configures EF Context Factory
         /// </summary>
         /// <param name="configuration"></param>
         void Configure(IAutoContextFactoryConfiguration configuration);

@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 namespace EFConvention
 {
     /// <summary>
-    /// 
+    /// Performs seeding functions on a specific entity from the context.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IEntitySeed<T> where T : class
     {
         /// <summary>
-        /// 
+        /// Seed the entity
         /// </summary>
         /// <param name="entity"></param>
         void Seed(DbSet<T> entity);
