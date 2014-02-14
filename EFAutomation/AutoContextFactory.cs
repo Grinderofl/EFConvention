@@ -154,15 +154,31 @@ namespace EFConvention
         /// <returns>Created IContext</returns>
         public IContext Context(string connectionString = "")
         {
-            
+            UpdateConfigurationFromConvention();   
             if(!_migrated)
                 MigrateToLatest();
             return new Context(_assemblies, _entities, _entitiesToBaseOn,
                 connectionString != "" ? connectionString : Configuration.Connection);
         }
 
+        private void UpdateConfigurationFromConvention()
+        {
+            foreach (var assembly in _assemblies)
+            {
+                var type = assembly.GetTypes()
+                            .FirstOrDefault(
+                                x => !x.IsAbstract && x.GetInterfaces().Contains(typeof (IEFConventionConfigurator)));
+                if (type != null)
+                {
+                    var config = (IEFConventionConfigurator) Activator.CreateInstance(type);
+                    config.Configure(Configuration);
+                }
+            }
+        }
+
         private MigrationConfiguration CreateConfiguration()
         {
+            UpdateConfigurationFromConvention();
             var configuration = new MigrationConfiguration();
             configuration.Seeding += (sender, context) => Seeding(sender, context);
             configuration.AutomaticMigrationDataLossAllowed = Configuration.AutomaticMigrationDataLossAllowed;
@@ -193,6 +209,7 @@ namespace EFConvention
         /// </summary>
         public void MigrateToLatest()
         {
+            UpdateConfigurationFromConvention();
             try
             {
                 TryMigrate();
@@ -227,6 +244,7 @@ namespace EFConvention
         /// </summary>
         public void GenerateMigrations()
         {
+            UpdateConfigurationFromConvention();
             var conf = CreateConfiguration();
             
             var migrationScaffolder = new MigrationScaffolder(conf);
@@ -256,6 +274,7 @@ namespace EFConvention
 
         private Assembly CompileMigrationsAssembly(bool asFile)
         {
+            UpdateConfigurationFromConvention();
             if (asFile && Configuration.MigrationsAssemblyFileLocation.Trim().Length == 0)
                 throw new DirectoryNotFoundException("Configuration indicates migration should be compiled into a file but no file name was specified");
             // Compile migrations assembly
@@ -269,6 +288,8 @@ namespace EFConvention
                 parameters.OutputAssembly = tempDir;
             }
             var codeProvider = new CSharpCodeProvider();
+            if (!Directory.Exists(Configuration.MigrationsDirectory))
+                Directory.CreateDirectory(Configuration.MigrationsDirectory);
             var files = Directory.GetFiles(Configuration.MigrationsDirectory).Where(x => x.EndsWith(".cs")).Select(File.ReadAllText);
             var compiled = codeProvider.CompileAssemblyFromSource(parameters, files.ToArray());
 

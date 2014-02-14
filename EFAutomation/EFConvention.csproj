@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoContextFactoryConfiguration.cs" />
+    <Compile Include="IEFConventionConfigurator.cs" />
     <Compile Include="IModelBuilderOverride.cs" />
     <Compile Include="Interceptors\IPostDeleteEventListener.cs" />
     <Compile Include="Interceptors\IPostDetachedEventListener.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Interceptors\IPreInsertEventListener.cs" />
     <Compile Include="Interceptors\IPreUnchangedEventListener.cs" />
     <Compile Include="Interceptors\IPreUpdateEventListener.cs" />
+    <Compile Include="IEntitySeed.cs" />
     <Compile Include="MigrationConfiguration.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Exceptions\AssemblyCompilationErrorsException.cs" />
