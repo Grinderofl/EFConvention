@@ -46,6 +46,7 @@ namespace EFConvention
         /// <param name="connectionString">Database connection string</param>
         public Context(List<Assembly> assemblies, List<Type> entities, List<Type> baseTypes, string connectionString) : base(connectionString)
         {
+            
             _assemblies = assemblies;
             _entities = entities;
             _baseTypes = baseTypes;
