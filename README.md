@@ -58,7 +58,7 @@ Context() call from Factory also accepts a string parameter for connection strin
 **IAutoContextFactoryConfiguration** provides several configuration options. 
 * **MigrationsDirectory** - where you want the program to store its migration files. The files are standard Code First Migration files. This directory should be included in your source control to allow synchronized migrations between developers.
 
-* **AutoMigrateToLatestVersionEnabled** - this is an option normally used in standard Code First Migration Configuration as _AutomaticMigrationsEnabled_, having this option on disables the Code Based migration generation.
+* **AutomaticMigrationsEnabled** - this is an option normally used in standard Code First Migration Configuration as _AutomaticMigrationsEnabled_, having this option on disables the Code Based migration generation.
 
 * **AutomaticMigrationDataLossAllowed** - goes together with AutoMigrateToLatestVersionEnabled, allows data loss on automatic migrations.
 
