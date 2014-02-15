@@ -76,8 +76,8 @@ namespace EFConvention
                 }
                 if (InterfaceContains(type, typeof(IPreUpdateEventListener)))
                 {
-                    var update = (IPreDetachedEventListener)Activator.CreateInstance(type);
-                    _preModified += update.OnDetach;
+                    var update = (IPreUpdateEventListener)Activator.CreateInstance(type);
+                    _preModified += update.OnUpdate;
                 }
                 if (InterfaceContains(type, typeof(IPreUnchangedEventListener)))
                 {
@@ -109,8 +109,8 @@ namespace EFConvention
                 }
                 if (InterfaceContains(type, typeof(IPostUpdateEventListener)))
                 {
-                    var update = (IPostDetachedEventListener)Activator.CreateInstance(type);
-                    _postModified += update.OnDetach;
+                    var update = (IPostUpdateEventListener)Activator.CreateInstance(type);
+                    _postModified += update.OnUpdate;
                 }
                 if (InterfaceContains(type, typeof(IPostUnchangedEventListener)))
                 {
