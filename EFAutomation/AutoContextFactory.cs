@@ -155,7 +155,7 @@ namespace EFConvention
         public IContext Context(string connectionString = "")
         {
             UpdateConfigurationFromConvention();   
-            if(!_migrated && Configuration.AutoMigrateGeneratedMigrationsEnabled ||  Configuration.AutomaticMigrationsEnabled)
+            if(!_migrated && (Configuration.AutoMigrateGeneratedMigrationsEnabled ||  Configuration.AutomaticMigrationsEnabled))
                 MigrateToLatest();
             return new Context(_assemblies, _entities, _entitiesToBaseOn,
                 connectionString != "" ? connectionString : Configuration.Connection);
