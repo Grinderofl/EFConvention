@@ -207,6 +207,9 @@ context.ModelCreating += (sender, args) => { args.ModelBuilder.(...);/* args.Mod
 Version history
 ==========
 
+##### v 2.3.4
+* Fixed several bugs, such as one that would keep checking database for migrations every time context was requested.
+
 #### v 2.3
 * Added convention-based configuration.
 * Added support for convention-based seeding
