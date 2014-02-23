@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Data.Entity;
 
 namespace EFConvention
 {
     public class SeedingEventArgs : EventArgs
     {
-        public IContext Context { get; set; }
+        public DbContext Context { get; set; }
     }
 }

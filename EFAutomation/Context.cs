@@ -15,7 +15,7 @@ namespace EFConvention
     /// <summary>
     /// Context implementation
     /// </summary>
-    public class Context : DbContext, IContext
+    public class Context : DbContext
     {
         private readonly List<Type> _baseTypes;
         private readonly List<Type> _entities;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Reflection;
 
 namespace EFConvention
@@ -49,7 +50,7 @@ namespace EFConvention
         /// </summary>
         /// <param name="connectionString"></param>
         /// <returns>Created IContext</returns>
-        IContext Context(string connectionString = "");
+        DbContext Context(string connectionString = "");
         /// <summary>
         /// Migrates database to latest version
         /// </summary>

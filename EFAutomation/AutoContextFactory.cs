@@ -152,7 +152,7 @@ namespace EFConvention
         /// </summary>
         /// <param name="connectionString"></param>
         /// <returns>Created IContext</returns>
-        public IContext Context(string connectionString = "")
+        public DbContext Context(string connectionString = "")
         {
             UpdateConfigurationFromConvention();   
             if(!_migrated && (Configuration.AutoMigrateGeneratedMigrationsEnabled ||  Configuration.AutomaticMigrationsEnabled))

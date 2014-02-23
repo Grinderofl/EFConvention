@@ -13,8 +13,8 @@ namespace WebTest.Controllers
 {
     public class HomeController : Controller
     {
-        private IContext _context;
-        public HomeController(IContext context)
+        private DbContext _context;
+        public HomeController(DbContext context)
         {
             _context = context;
             /*_autoContextFactory = new AutoContextFactory();

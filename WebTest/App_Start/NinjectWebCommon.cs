@@ -1,3 +1,4 @@
+using System.Data.Entity;
 using EFConvention;
 using WebTest.Models;
 
@@ -60,7 +61,7 @@ namespace WebTest.App_Start
                 .To<AutoContextFactory>()
                 .InSingletonScope()
                 .OnActivation(x => x.AddEntitiesBasedOn<BaseEntity>().AddAssemblyContaining<BaseEntity>());
-            kernel.Bind<IContext>().ToMethod(x => x.Kernel.Get<IAutoContextFactory>().Context());
+            kernel.Bind<DbContext>().ToMethod(x => x.Kernel.Get<IAutoContextFactory>().Context()).InRequestScope();
         }        
     }
 }
