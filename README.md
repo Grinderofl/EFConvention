@@ -47,10 +47,10 @@ Detailed info
 =============
 
 ### Lifecycle
-Factory lifecyle should be same as your application lifecycle. Every Context() call checks if database has already been migrated, provided AutoMigrateGeneratedMigrationsEnabled is set to true. If you manage migrations manually, lifecycle can be anything and you will be responsible for performance and errors. IContext lifecycle can be anything you would normally set a standard DbContext to.
+Factory lifecyle should be same as your application lifecycle. First Context() call checks if database has already been migrated, provided AutoMigrateGeneratedMigrationsEnabled is set to true. If you manage migrations manually, lifecycle can be anything and you will be responsible for performance and errors. DbContext lifecycle can be anything you would normally set a standard DbContext to, in Web cases it would be per Request.
 
 ### Context
-EFAutomation declares an IContext interface which declares effectively same functions as original DbContext and adds some of its own, such as events. You are free to cast it to standard DbContext if you wish.
+From versioni 2.4, EFConvention uses a standard DbContext. Use the Context() call as such.
 
 Context() call from Factory also accepts a string parameter for connection string, either full connectionstring or the name of it, just like standard DbContext. It's suggested to just set the Connection option under Configuration property, though.
 
@@ -173,12 +173,12 @@ public class ItemSeed : IEntitySeed<Item>
 }
 ```
 
-* ```IContextSeed``` - provides you with the entire IContext to use.  Just reme
+* ```IContextSeed``` - provides you with the entire DbContext to use.
 
 ```c#
 public class AllSeed : IContextSeed
 {
-    public void Seed(IContext context)
+    public void Seed(DbContext context)
     {
         context.Set<EntityTwo>().AddOrUpdate(x => x.Name, new EntityTwo() {Name = "My entity"});
     }
@@ -190,15 +190,12 @@ Events
 **All events fire before their original base events**
 
 ### IContext Events
-* SavingChanges - executed when changes are being saved. Gets executed in both Async and normal saving.
-```c#
-context.SavingChanges += (sender, args) => { args.Context.(...);/* args.Context is IContext */ };
-```
+As of version 2.4, IContext has been removed in favor of standard DbContext. 
 
 ### IAutoContextFactory Events
 * Seeding - executed when database is seeded. Put your AddOrUpdate events here.
 ```c#
-factory.Seeding += (sender, args) => { args.Context.(...); /* args.Context is IContext */ };
+factory.Seeding += (sender, args) => { args.Context.(...); /* args.Context is DbContext */ };
 ```
 * ModelCreating - executed when model is being created. Conventions should be set up here.
 ```c#
@@ -207,7 +204,10 @@ context.ModelCreating += (sender, args) => { args.ModelBuilder.(...);/* args.Mod
 Version history
 ==========
 
-##### v 2.3.4
+##### v 2.4.0
+* Removed IContext interface as it has lost its purpose now that T4 context generation is gone. Use standard DbContext type instead.
+
+#### v 2.3.4
 * Fixed several bugs, such as one that would keep checking database for migrations every time context was requested.
 
 #### v 2.3
