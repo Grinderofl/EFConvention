@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoContextFactoryConfiguration.cs" />
+    <Compile Include="EventHandlers.cs" />
     <Compile Include="IContextSeed.cs" />
     <Compile Include="IEFConventionConfigurator.cs" />
     <Compile Include="IModelBuilderOverride.cs" />
@@ -78,7 +79,6 @@
     <Compile Include="Exceptions\MigrationsOutOfDateException.cs" />
     <Compile Include="IAutoContextFactory.cs" />
     <Compile Include="IAutoContextFactoryConfiguration.cs" />
-    <Compile Include="IContext.cs" />
     <Compile Include="IDbMigrationsConfiguration.cs" />
     <Compile Include="MigrationDesignerGenerator.cs">
       <AutoGen>True</AutoGen>

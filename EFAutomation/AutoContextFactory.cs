@@ -319,7 +319,7 @@ namespace EFConvention
             compilerParams.ReferencedAssemblies.Add("System.Data.Entity.dll");
             compilerParams.ReferencedAssemblies.Add("System.Core.dll");
             compilerParams.ReferencedAssemblies.Add("System.dll");
-            compilerParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(IContext)).Location);
+            compilerParams.ReferencedAssemblies.Add(Assembly.GetAssembly(typeof(Context)).Location);
             compilerParams.GenerateInMemory = false;
             return compilerParams;
         }

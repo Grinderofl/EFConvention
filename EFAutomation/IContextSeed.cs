@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,6 @@ namespace EFConvention
         /// Seed the context
         /// </summary>
         /// <param name="context"></param>
-        void Seed(IContext context);
+        void Seed(DbContext context);
     }
 }
